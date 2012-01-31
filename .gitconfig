@@ -1,0 +1,13 @@
+[color]
+    ui = true
+[alias]
+    plog = log --pretty=\"%Cred%h %Cgreen%cn %Creset%s\" --graph
+	co = checkout
+	cob = checkout -b
+	cot = checkout -t
+	st = status
+	ci = commit -v
+	cia = commit -av
+	b = branch -av
+[core]
+	editor = vim
