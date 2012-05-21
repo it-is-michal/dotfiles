@@ -8,6 +8,7 @@ fi
 export EDITOR='vim'
 
 # User specific aliases and functions
+alias ls='ls --color=auto'
 alias ll='ls -hBl --group-directories-first'
 alias lla='ls -hAl --group-directories-first'
 alias susu='sudo su -'
