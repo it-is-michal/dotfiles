@@ -78,10 +78,10 @@ function activate_env() {
 alias cdv='cd $VIRTUALENV_HOME'
 alias lsv='ll $VIRTUALENV_HOME'
 
-# setup rvm
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-function _rvm_prompt {
-    [ -n "$(~/.rvm/bin/rvm-prompt)" ] && echo "<$(~/.rvm/bin/rvm-prompt)>" || echo ''
-}
-PS1="\$(_rvm_prompt)$PS1"
-[[ -r ~/.rvm/scripts/completion ]] && . ~/.rvm/scripts/completion
+# # setup rvm
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+# function _rvm_prompt {
+#     [ -n "$(~/.rvm/bin/rvm-prompt)" ] && echo "<$(~/.rvm/bin/rvm-prompt)>" || echo ''
+# }
+# PS1="\$(_rvm_prompt)$PS1"
+# [[ -r ~/.rvm/scripts/completion ]] && . ~/.rvm/scripts/completion
