@@ -14,6 +14,10 @@ alias lla='ls -hAl --group-directories-first'
 alias susu='sudo su -'
 alias gitka='gitk --all &'
 
+function pgr() {
+    ps aux | grep $1 | grep -v "grep $1"
+}
+
 function mbb() {
     git co master
     git branch -f bookmark $1
