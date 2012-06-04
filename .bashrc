@@ -16,6 +16,11 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
+# autocomplete when sudoing
+if [ "$PS1" ]; then
+  complete -cf sudo
+fi
+
 # User specific aliases and functions
 alias ls='ls --color=auto'
 alias ll='ls -hBl --group-directories-first'
