@@ -159,7 +159,7 @@ set nowrap "don't automatically wrap on load
 set fo-=t "don't automatically wrap text when typing
 set hlsearch
 "" colorscheme slate "when not using vividchalk
-"" set laststatus=2 "always show statusline - required for Powerline to show up
+set laststatus=2 "always show statusline - required for Powerline to show up
 
 " TODO check out why code below does not work as expected
 "" " highlight columns 81+
