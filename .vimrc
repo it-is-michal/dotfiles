@@ -62,8 +62,8 @@ Bundle 'gmarik/vundle'
 "------------------------------------------------------------------------------
 "" Bundle 'Lokaltog/vim-powerline'
 "" Bundle 'scrooloose/nerdtree'
-"" Bundle 'L9'
-"" Bundle 'FuzzyFinder'
+Bundle 'L9'
+Bundle 'FuzzyFinder'
 Bundle 'vividchalk.vim'
 colorscheme vividchalk
 set background=dark
@@ -182,3 +182,19 @@ noremap <Leader>x <esc>:set cuc!<cr>:set cul!<cr>
 " Python goodies
 "------------------------------------------------------------------------------
 map <Leader>b Oimport ipdb; ipdb.set_trace() #BREAKPOINT<C-c>
+
+" Remap arrows top <nop>
+"------------------------------------------------------------------------------
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
+
+" Fuzzy Finder shortcuts
+"------------------------------------------------------------------------------
+noremap <leader>f <esc>:FufFile<cr>
+noremap <leader>b <esc>:FufBuffer<cr>
