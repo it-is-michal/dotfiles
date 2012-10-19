@@ -183,7 +183,7 @@ noremap <Leader>x <esc>:set cuc!<cr>:set cul!<cr>
 "------------------------------------------------------------------------------
 map <Leader>b Oimport ipdb; ipdb.set_trace() #BREAKPOINT<C-c>
 
-" Remap arrows top <nop>
+" Remap arrows to <nop>
 "------------------------------------------------------------------------------
 map <up> <nop>
 map <down> <nop>
