@@ -62,8 +62,8 @@ Bundle 'gmarik/vundle'
 "------------------------------------------------------------------------------
 "" Bundle 'Lokaltog/vim-powerline'
 "" Bundle 'scrooloose/nerdtree'
-Bundle 'L9'
-Bundle 'FuzzyFinder'
+"" Bundle 'L9'
+"" Bundle 'FuzzyFinder'
 Bundle 'vividchalk.vim'
 colorscheme vividchalk
 set background=dark
@@ -77,6 +77,8 @@ set background=dark
 " ctrlp
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
 "" Bundle 'kien/ctrlp.vim'
+"" map <Leader>l :CtrlPBuffer<CR>
+"" map <Leader>p :CtrlP<CR>
 "" let g:ctrlp_max_height = 30
 "" set wildignore+=*.pyc
 "" set wildignore+=*_build/*
@@ -193,8 +195,3 @@ imap <up> <nop>
 imap <down> <nop>
 imap <left> <nop>
 imap <right> <nop>
-
-" Fuzzy Finder shortcuts
-"------------------------------------------------------------------------------
-noremap <leader>f <esc>:FufFile<cr>
-noremap <leader>b <esc>:FufBuffer<cr>
