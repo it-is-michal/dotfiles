@@ -79,7 +79,10 @@ set background=dark
 "" Bundle 'kien/ctrlp.vim'
 "" map <Leader>l :CtrlPBuffer<CR>
 "" map <Leader>p :CtrlP<CR>
+"" map <Leader>m :tabnext<CR>
+"" map <Leader>n :tabprevious<CR>
 "" let g:ctrlp_max_height = 30
+"" let g:ctrlp_open_multiple_files = 'rt'
 "" set wildignore+=*.pyc
 "" set wildignore+=*_build/*
 "" set wildignore+=**/coverage/*
