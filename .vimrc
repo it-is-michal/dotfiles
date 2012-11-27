@@ -198,3 +198,14 @@ imap <up> <nop>
 imap <down> <nop>
 imap <left> <nop>
 imap <right> <nop>
+
+" Move tabs
+"------------------------------------------------------------------------------
+" move left
+nnoremap <Leader>h :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+" move right
+nnoremap <Leader>j :execute 'silent! tabmove ' . tabpagenr()<CR>
+" move to the beggining
+nnoremap <Leader>H :execute 'silent! tabmove 0'<CR>
+" move to the end
+nnoremap <Leader>J :execute 'silent! tabmove'<CR>
