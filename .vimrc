@@ -79,10 +79,10 @@ set background=dark
 "" Bundle 'kien/ctrlp.vim'
 "" map <Leader>l :CtrlPBuffer<CR>
 "" map <Leader>p :CtrlP<CR>
-"" map <Leader>m :tabnext<CR>
-"" map <Leader>n :tabprevious<CR>
+"" map <Leader>n :tabnext<CR>
+"" map <Leader>b :tabprevious<CR>
 "" let g:ctrlp_max_height = 30
-"" let g:ctrlp_open_multiple_files = 'rt'
+"" let g:ctrlp_open_multiple_files = 'i'
 "" set wildignore+=*.pyc
 "" set wildignore+=*_build/*
 "" set wildignore+=**/coverage/*
@@ -186,7 +186,7 @@ noremap <Leader>x <esc>:set cuc!<cr>:set cul!<cr>
 
 " Python goodies
 "------------------------------------------------------------------------------
-map <Leader>b Oimport ipdb; ipdb.set_trace() #BREAKPOINT<C-c>
+map <Leader>B oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>
 
 " Remap arrows to <nop>
 "------------------------------------------------------------------------------
