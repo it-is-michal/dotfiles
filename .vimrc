@@ -194,6 +194,7 @@ noremap <Leader>w :set list!<CR>
 " Python goodies
 "------------------------------------------------------------------------------
 map <Leader>B oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>
+map <Leader>N oimport pudb; pudb.set_trace()  # BREAKPOINT<C-c>
 
 " Remap arrows to <nop>
 "------------------------------------------------------------------------------
