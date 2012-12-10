@@ -183,6 +183,8 @@ set colorcolumn=80
 set pastetoggle=<F2>
 " toggle cursorcolumn and cursorline cross
 noremap <Leader>x <esc>:set cuc!<cr>:set cul!<cr>
+" toggle whitespace listing
+noremap <Leader>w :set list!<CR>
 
 " Python goodies
 "------------------------------------------------------------------------------
