@@ -98,6 +98,11 @@ set background=dark
 "" let g:pymode_syntax = 1
 "" let g:pymode_syntax_builtin_objs = 0
 "" let g:pymode_syntax_builtin_funcs = 0
+"" " force python-mode to ignore warnings:
+"" "  * W191 - tabs
+"" "  * E12? - indentation
+"" "  * E702 - numtilple statements in one line (BREAKPOINTs)
+"" let g:pymode_lint_ignore = "W191,E12,E702"
 
 " Better navigating through omnicomplete option list
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
