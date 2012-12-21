@@ -64,9 +64,22 @@ Bundle 'gmarik/vundle'
 "" Bundle 'scrooloose/nerdtree'
 "" Bundle 'L9'
 "" Bundle 'FuzzyFinder'
+
+" colorschemes
 Bundle 'vividchalk.vim'
-colorscheme vividchalk
-set background=dark
+Bundle "altercation/vim-colors-solarized"
+
+if has('gui_running')
+  set guioptions-=m  " remove menu bar
+  set guioptions-=T  " remove toolbar
+""  set guifont=Source\ Code\ Pro\ 11
+
+  set background=dark
+  colorscheme solarized
+else
+  colorscheme vividchalk
+  set background=dark
+endif
 
 " wombat256mod - colorscheme
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
