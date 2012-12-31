@@ -204,6 +204,10 @@ noremap <Leader>x <esc>:set cuc!<cr>:set cul!<cr>
 " toggle whitespace listing
 noremap <Leader>w :set list!<CR>
 
+" Empty lines shorthand
+nnoremap <CR> o<ESC>
+nnoremap <S-CR> O<ESC>
+
 " Python goodies
 "------------------------------------------------------------------------------
 map <Leader>B oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>
