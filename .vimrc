@@ -62,6 +62,7 @@ Bundle 'gmarik/vundle'
 "------------------------------------------------------------------------------
 "" Bundle 'Lokaltog/vim-powerline'
 "" Bundle 'scrooloose/nerdtree'
+"" map <Leader>t :NERDTreeToggle<CR>
 "" Bundle 'L9'
 "" Bundle 'FuzzyFinder'
 
