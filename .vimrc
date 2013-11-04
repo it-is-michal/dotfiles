@@ -237,3 +237,14 @@ nnoremap <Leader>H :execute 'silent! tabmove 0'<CR>
 nnoremap <Leader>J :execute 'silent! tabmove'<CR>
 " new tab
 nnoremap <Leader>t :tabnew<CR>
+
+" Toggle line numbering
+"------------------------------------------------------------------------------
+function! g:ToggleLineNumberingMode()
+    if(&relativenumber==1)
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+nnoremap <Leader>r :call g:ToggleLineNumberingMode()<CR>
