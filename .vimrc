@@ -62,7 +62,7 @@ Bundle 'gmarik/vundle'
 "------------------------------------------------------------------------------
 "" Bundle 'Lokaltog/vim-powerline'
 "" Bundle 'scrooloose/nerdtree'
-"" map <Leader>t :NERDTreeToggle<CR>
+"" map <Leader>f :NERDTreeToggle<CR>
 "" Bundle 'L9'
 "" Bundle 'FuzzyFinder'
 
@@ -225,7 +225,7 @@ imap <down> <nop>
 imap <left> <nop>
 imap <right> <nop>
 
-" Move tabs
+" Tab shortcuts
 "------------------------------------------------------------------------------
 " move left
 nnoremap <Leader>h :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
@@ -235,3 +235,5 @@ nnoremap <Leader>j :execute 'silent! tabmove ' . tabpagenr()<CR>
 nnoremap <Leader>H :execute 'silent! tabmove 0'<CR>
 " move to the end
 nnoremap <Leader>J :execute 'silent! tabmove'<CR>
+" new tab
+nnoremap <Leader>t :tabnew<CR>
