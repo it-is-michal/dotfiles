@@ -166,8 +166,6 @@ map <c-l> <c-w>l
 
 " remove hilight from search with <C-n>
 noremap <C-n> :nohl<CR>
-noremap <C-n> :nohl<CR>
-noremap <C-n> :nohl<CR>
 
 " easier block indenting - does not loose selection after indenting
 vnoremap < <gv
@@ -204,10 +202,6 @@ set pastetoggle=<F2>
 noremap <Leader>x <esc>:set cuc!<cr>:set cul!<cr>
 " toggle whitespace listing
 noremap <Leader>w :set list!<CR>
-
-" Empty lines shorthand
-nnoremap <CR> o<ESC>
-nnoremap <S-CR> O<ESC>
 
 " Python goodies
 "------------------------------------------------------------------------------
