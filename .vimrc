@@ -219,7 +219,7 @@ imap <down> <nop>
 imap <left> <nop>
 imap <right> <nop>
 
-" Tab shortcuts
+" Move tabs
 "------------------------------------------------------------------------------
 " move left
 nnoremap <Leader>h :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
