@@ -62,6 +62,7 @@ Bundle 'gmarik/vundle'
 "------------------------------------------------------------------------------
 "" Bundle 'Lokaltog/vim-powerline'
 "" Bundle 'scrooloose/nerdtree'
+"" map <Leader>f :NERDTreeToggle<CR>
 "" Bundle 'L9'
 "" Bundle 'FuzzyFinder'
 
@@ -165,8 +166,6 @@ map <c-l> <c-w>l
 
 " remove hilight from search with <C-n>
 noremap <C-n> :nohl<CR>
-noremap <C-n> :nohl<CR>
-noremap <C-n> :nohl<CR>
 
 " easier block indenting - does not loose selection after indenting
 vnoremap < <gv
@@ -204,10 +203,6 @@ noremap <Leader>x <esc>:set cuc!<cr>:set cul!<cr>
 " toggle whitespace listing
 noremap <Leader>w :set list!<CR>
 
-" Empty lines shorthand
-nnoremap <CR> o<ESC>
-nnoremap <S-CR> O<ESC>
-
 " Python goodies
 "------------------------------------------------------------------------------
 map <Leader>B oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>
@@ -224,7 +219,7 @@ imap <down> <nop>
 imap <left> <nop>
 imap <right> <nop>
 
-" Move tabs
+" Tab shortcuts
 "------------------------------------------------------------------------------
 " move left
 nnoremap <Leader>h :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
@@ -234,3 +229,16 @@ nnoremap <Leader>j :execute 'silent! tabmove ' . tabpagenr()<CR>
 nnoremap <Leader>H :execute 'silent! tabmove 0'<CR>
 " move to the end
 nnoremap <Leader>J :execute 'silent! tabmove'<CR>
+" new tab
+nnoremap <Leader>t :tabnew<CR>
+
+" Toggle line numbering
+"------------------------------------------------------------------------------
+function! g:ToggleLineNumberingMode()
+    if(&relativenumber==1)
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+nnoremap <Leader>r :call g:ToggleLineNumberingMode()<CR>
