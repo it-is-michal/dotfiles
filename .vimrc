@@ -29,7 +29,7 @@ set bs=2 "make backspace behave 'less magically' and more predictably
 
 set clipboard=unnamed "easier integration with system clipboard
 
-let mapleader = "," "rebind <Leader> key to comma
+let mapleader = " " "rebind <Leader> key to space
 
 " disable backup files
 set nobackup
@@ -176,6 +176,7 @@ vnoremap > >gv
 " Visiual options
 "==============================================================================
 set number "show line numbers
+set relativenumber "toggle relative line numbering
 set tw=79 "sets width of document (used by gd)
 set nowrap "don't automatically wrap on load
 set fo-=t "don't automatically wrap text when typing
@@ -192,6 +193,37 @@ set laststatus=2 "always show statusline - required for Powerline to show up
 "" endif
 set colorcolumn=80
 
+" ============================================================================== 
+" Helper functions
+" ============================================================================== 
+" Adjust GUI font size
+let s:pattern = '^\(.* \)\([1-9][0-9]*\)$'
+let s:minfontsize = 6
+let s:maxfontsize = 48
+function! AdjustFontSize(amount)
+  if has("gui_gtk2") && has("gui_running")
+    let fontname = substitute(&guifont, s:pattern, '\1', '')
+    let cursize = substitute(&guifont, s:pattern, '\2', '')
+    let newsize = cursize + a:amount
+    if (newsize >= s:minfontsize) && (newsize <= s:maxfontsize)
+      let newfont = fontname . newsize
+      let &guifont = newfont
+    endif
+  else
+    echoerr "You need to run the GTK2 version of Vim to use this function."
+  endif
+endfunction
+
+function! LargerFont()
+  call AdjustFontSize(1)
+endfunction
+command! LargerFont call LargerFont()
+
+function! SmallerFont()
+  call AdjustFontSize(-1)
+endfunction
+command! SmallerFont call SmallerFont()
+
 
 "==============================================================================
 " Shortcuts and mappings
@@ -201,7 +233,9 @@ set pastetoggle=<F2>
 " toggle cursorcolumn and cursorline cross
 noremap <Leader>x <esc>:set cuc!<cr>:set cul!<cr>
 " toggle whitespace listing
-noremap <Leader>w :set list!<CR>
+noremap <Leader>ws :set list!<CR>
+nnoremap <F7> :w<CR>
+inoremap <F7> <ESC>:w<CR>i
 
 " Python goodies
 "------------------------------------------------------------------------------
@@ -236,9 +270,18 @@ nnoremap <Leader>t :tabnew<CR>
 "------------------------------------------------------------------------------
 function! g:ToggleLineNumberingMode()
     if(&relativenumber==1)
-        set number
+        set norelativenumber
     else
         set relativenumber
     endif
 endfunc
 nnoremap <Leader>r :call g:ToggleLineNumberingMode()<CR>
+
+" Adjust GUI font size
+"------------------------------------------------------------------------------
+nnoremap <Leader>- :SmallerFont<CR>
+nnoremap <Leader>= :LargerFont<CR>
+
+" Fast write and fast quit
+nnoremap <Leader>q :q<CR>
+nnoremap <Leader>w :w<CR>
