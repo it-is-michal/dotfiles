@@ -61,13 +61,15 @@ Bundle 'gmarik/vundle'
 " my Vundles
 "------------------------------------------------------------------------------
 "" Bundle 'Lokaltog/vim-powerline'
-"" Bundle 'scrooloose/nerdtree'
-"" map <Leader>f :NERDTreeToggle<CR>
+Bundle 'bling/vim-airline'
+Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/nerdcommenter'
+map <Leader>f :NERDTreeToggle<CR>
 "" Bundle 'L9'
 "" Bundle 'FuzzyFinder'
 
 " colorschemes
-Bundle 'vividchalk.vim'
+" Bundle 'vividchalk.vim'
 Bundle "altercation/vim-colors-solarized"
 
 if has('gui_running')
@@ -78,7 +80,7 @@ if has('gui_running')
   set background=dark
   colorscheme solarized
 else
-  colorscheme vividchalk
+  colorscheme slate
   set background=dark
 endif
 
@@ -103,38 +105,36 @@ endif
 
 " python-mode
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
-"" Bundle 'klen/python-mode'
-"" map <Leader>g :call RopeGoToDefinition()<CR>
-"" let ropevim_enable_shortcuts = 1
-"" let g:pymode_rope_def_newwin = "vnew"
-"" let g:pymode_rope_extended_complete = 1
-"" let g:pymode_breakpoint = 0
-"" let g:pymode_syntax = 1
-"" let g:pymode_syntax_builtin_objs = 0
-"" let g:pymode_syntax_builtin_funcs = 0
-"" " force python-mode to ignore warnings:
-"" "  * W191 - tabs
-"" "  * E12? - indentation
-"" "  * E702 - numtilple statements in one line (BREAKPOINTs)
-"" let g:pymode_lint_ignore = "W191,E12,E702"
+Bundle 'klen/python-mode'
+map <Leader>g :call RopeGoToDefinition()<CR>
+let ropevim_enable_shortcuts = 1
+let g:pymode_rope_def_newwin = "vnew"
+let g:pymode_rope_extended_complete = 1
+let g:pymode_breakpoint = 0
+let g:pymode_syntax = 1
+let g:pymode_syntax_builtin_objs = 0
+let g:pymode_syntax_builtin_funcs = 0
+" force python-mode to ignore warnings:
+"  * E702 - numtilple statements in one line (BREAKPOINTs)
+let g:pymode_lint_ignore = "E702"
 
 " Better navigating through omnicomplete option list
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
 " See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
-"" set completeopt=longest,menuone
-"" function! OmniPopup(action)
-""     if pumvisible()
-""         if a:action == 'j'
-""             return "\<C-N>"
-""         elseif a:action == 'k'
-""             return "\<C-P>"
-""         endif
-""     endif
-""     return a:action
-"" endfunction
-""
-"" inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
-"" inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
+set completeopt=longest,menuone
+function! OmniPopup(action)
+   if pumvisible()
+       if a:action == 'j'
+           return "\<C-N>"
+       elseif a:action == 'k'
+           return "\<C-P>"
+       endif
+   endif
+   return a:action
+endfunction
+
+inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
+inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 
 
 " Python folding
@@ -152,6 +152,7 @@ set softtabstop=4
 set shiftwidth=4
 set shiftround
 set expandtab
+filetype plugin on
 filetype plugin indent on
 
 
@@ -181,7 +182,6 @@ set tw=79 "sets width of document (used by gd)
 set nowrap "don't automatically wrap on load
 set fo-=t "don't automatically wrap text when typing
 set hlsearch
-"" colorscheme slate "when not using vividchalk
 set laststatus=2 "always show statusline - required for Powerline to show up
 
 " TODO check out why code below does not work as expected
@@ -228,6 +228,8 @@ command! SmallerFont call SmallerFont()
 "==============================================================================
 " Shortcuts and mappings
 "==============================================================================
+" Toggle spellcheck
+nnoremap <Leader>s :set spell!<CR>
 " Toggle paste mode with <F2>
 set pastetoggle=<F2>
 " toggle cursorcolumn and cursorline cross
@@ -244,14 +246,14 @@ map <Leader>N oimport pudb; pudb.set_trace()  # BREAKPOINT<C-c>
 
 " Remap arrows to <nop>
 "------------------------------------------------------------------------------
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
-imap <up> <nop>
-imap <down> <nop>
-imap <left> <nop>
-imap <right> <nop>
+"" map <up> <nop>
+"" map <down> <nop>
+"" map <left> <nop>
+"" map <right> <nop>
+"" imap <up> <nop>
+"" imap <down> <nop>
+"" imap <left> <nop>
+"" imap <right> <nop>
 
 " Move tabs
 "------------------------------------------------------------------------------
