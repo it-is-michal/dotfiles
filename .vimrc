@@ -92,16 +92,16 @@ endif
 
 " ctrlp
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
-"" Bundle 'kien/ctrlp.vim'
-"" map <Leader>l :CtrlPBuffer<CR>
-"" map <Leader>p :CtrlP<CR>
-"" map <Leader>n :tabnext<CR>
-"" map <Leader>b :tabprevious<CR>
-"" let g:ctrlp_max_height = 30
-"" let g:ctrlp_open_multiple_files = 'i'
-"" set wildignore+=*.pyc
-"" set wildignore+=*_build/*
-"" set wildignore+=**/coverage/*
+Bundle 'kien/ctrlp.vim'
+map <Leader>l :CtrlPBuffer<CR>
+map <Leader>p :CtrlP<CR>
+map <Leader>n :tabnext<CR>
+map <Leader>b :tabprevious<CR>
+let g:ctrlp_max_height = 30
+let g:ctrlp_open_multiple_files = 'i'
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=**/coverage/*
 
 " python-mode
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
