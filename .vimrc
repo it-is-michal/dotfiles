@@ -67,6 +67,7 @@ Bundle 'scrooloose/nerdcommenter'
 map <Leader>f :NERDTreeToggle<CR>
 "" Bundle 'L9'
 "" Bundle 'FuzzyFinder'
+Bundle 'mhinz/vim-signify'
 
 " colorschemes
 " Bundle 'vividchalk.vim'
