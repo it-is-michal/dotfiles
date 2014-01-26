@@ -73,6 +73,8 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'ludovicchabant/vim-lawrencium'
 Bundle 'mhinz/vim-signify'
 
+Bundle 'mileszs/ack.vim'
+
 " colorschemes
 " Bundle 'vividchalk.vim'
 Bundle "altercation/vim-colors-solarized"
