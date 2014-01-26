@@ -69,6 +69,8 @@ map <Leader>f :NERDTreeToggle<CR>
 "" Bundle 'L9'
 "" Bundle 'FuzzyFinder'
 Bundle 'tpope/vim-fugitive'
+" Mercurial wrapper for Vim:
+Bundle 'ludovicchabant/vim-lawrencium'
 Bundle 'mhinz/vim-signify'
 
 " colorschemes
