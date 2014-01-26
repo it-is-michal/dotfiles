@@ -62,11 +62,13 @@ Bundle 'gmarik/vundle'
 "------------------------------------------------------------------------------
 "" Bundle 'Lokaltog/vim-powerline'
 Bundle 'bling/vim-airline'
+let g:airline#extensions#virtualenv#enabled = 1
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
 map <Leader>f :NERDTreeToggle<CR>
 "" Bundle 'L9'
 "" Bundle 'FuzzyFinder'
+Bundle 'tpope/vim-fugitive'
 Bundle 'mhinz/vim-signify'
 
 " colorschemes
@@ -76,9 +78,9 @@ Bundle "altercation/vim-colors-solarized"
 if has('gui_running')
   set guioptions-=m  " remove menu bar
   set guioptions-=T  " remove toolbar
-""  set guifont=Source\ Code\ Pro\ 11
+  set guifont=Source\ Code\ Pro\ 11
 
-  set background=dark
+  set background=light
   colorscheme solarized
 else
   colorscheme slate
@@ -194,9 +196,9 @@ set laststatus=2 "always show statusline - required for Powerline to show up
 "" endif
 set colorcolumn=80
 
-" ============================================================================== 
+" ==============================================================================
 " Helper functions
-" ============================================================================== 
+" ==============================================================================
 " Adjust GUI font size
 let s:pattern = '^\(.* \)\([1-9][0-9]*\)$'
 let s:minfontsize = 6
