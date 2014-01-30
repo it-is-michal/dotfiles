@@ -85,6 +85,12 @@ Bundle "altercation/vim-colors-solarized"
 if has('gui_running')
   set guioptions-=m  " remove menu bar
   set guioptions-=T  " remove toolbar
+  " remove scrollbars
+  set guioptions-=r
+  set guioptions-=R
+  set guioptions-=l
+  set guioptions-=L
+  " set font
   set guifont=Source\ Code\ Pro\ 11
 
   set background=light
