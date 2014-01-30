@@ -74,6 +74,8 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'ludovicchabant/vim-lawrencium'
 Bundle 'mhinz/vim-signify'
 
+Bundle 'davidhalter/jedi-vim'
+
 Bundle 'mileszs/ack.vim'
 
 " colorschemes
