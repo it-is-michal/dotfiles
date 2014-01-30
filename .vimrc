@@ -63,6 +63,7 @@ Bundle 'gmarik/vundle'
 "" Bundle 'Lokaltog/vim-powerline'
 Bundle 'bling/vim-airline'
 let g:airline#extensions#virtualenv#enabled = 1
+let g:airline_theme = 'understated'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
 map <Leader>f :NERDTreeToggle<CR>
@@ -94,7 +95,7 @@ endif
 " wombat256mod - colorscheme
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
 "" Bundle 'michalbachowski/vim-wombat256mod'
-"" set t_Co=256
+set t_Co=256
 "" color wombat256mod
 
 " ctrlp
