@@ -79,8 +79,8 @@ Bundle 'davidhalter/jedi-vim'
 Bundle 'mileszs/ack.vim'
 
 " colorschemes
-" Bundle 'vividchalk.vim'
-Bundle "altercation/vim-colors-solarized"
+"" Bundle 'vividchalk.vim'
+"" Bundle "altercation/vim-colors-solarized"
 
 if has('gui_running')
   set guioptions-=m  " remove menu bar
@@ -94,9 +94,9 @@ if has('gui_running')
   set guifont=Source\ Code\ Pro\ 11
 
   set background=light
-  colorscheme solarized
+  colorscheme Tomorrow
 else
-  colorscheme slate
+  colorscheme Tomorrow-Night-Eighties
   set background=dark
 endif
 
