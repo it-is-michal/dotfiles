@@ -316,7 +316,11 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Up",  function () awful.util.spawn("/home/michal/.local/bin/pavol plus") end),
     awful.key({ modkey,           }, "Down",  function () awful.util.spawn("/home/michal/.local/bin/pavol minus") end),
     awful.key({ modkey,           }, ".",  function () awful.util.spawn("/home/michal/.local/bin/pavol mute") end),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+    -- awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+    awful.key({ modkey,           }, "Escape", function()
+        awful.menu.menu_keys.down = { "Down", "Alt_L" }
+        local cmenu = awful.menu.clients({width=460}, { keygrabber=true })
+    end),
 
     awful.key({ modkey,           }, "j",
         function ()
