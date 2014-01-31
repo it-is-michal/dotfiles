@@ -12,6 +12,8 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local vicious = require("vicious")
 
+local awmodoro = require("awmodoro")
+
 -- Load Debian menu entries
 require("debian.menu")
 
@@ -226,6 +228,28 @@ mytasklist.buttons = awful.util.table.join(
                                               if client.focus then client.focus:raise() end
                                           end))
 
+--pomodoro wibox
+pomowibox = awful.wibox({ position = "bottom", screen = 1, height=8})
+pomowibox.visible = false
+local pomodoro = awmodoro.new({
+    minutes             = 25,
+    do_notify           = true,
+    active_bg_color     = '#313131',
+    paused_bg_color     = '#7746D7',
+    fg_color            = {type = "linear", from = {0,0}, to = {pomowibox.width, 0}, stops = {{0, "#AECF96"},{0.5, "#88A175"},{1, "#FF5656"}}},
+    width               = pomowibox.width,
+    height              = pomowibox.height, 
+
+    begin_callback = function()
+        pomowibox.visible = true
+    end,
+
+    finish_callback = function()
+        pomowibox.visible = false
+        awful.util.spawn_with_shell("zenity --info --text='Pomodoro done.\n\nHAVE A BREAK!'")
+    end})
+pomowibox:set_widget(pomodoro)
+
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt()
@@ -285,6 +309,8 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
+    awful.key({ modkey, "Control" }, "p", function () pomodoro:toggle() end),
+    awful.key({ modkey, "Shift" }, "p", function () pomodoro:finish() end),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Up",  function () awful.util.spawn("/home/michal/.local/bin/pavol plus") end),
