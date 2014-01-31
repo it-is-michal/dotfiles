@@ -46,10 +46,10 @@ end
 
 theme.font          = "Ubuntu Bold 8"
 
-theme.bg_normal     = "#1a1a1a00"
-theme.bg_focus      = "#3e3e3e88"
-theme.bg_urgent     = "#30303088"
-theme.bg_minimize   = "#44444400"
+theme.bg_normal     = "#00000044"
+theme.bg_focus      = "#3e3e3eaa"
+theme.bg_urgent     = "#303030aa"
+theme.bg_minimize   = "#00000044"
 
 theme.fg_normal     = "#eddbc3"
 theme.fg_focus      = "#54a992"
