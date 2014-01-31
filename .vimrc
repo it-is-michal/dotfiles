@@ -130,6 +130,8 @@ let g:pymode_breakpoint = 0
 let g:pymode_syntax = 1
 let g:pymode_syntax_builtin_objs = 0
 let g:pymode_syntax_builtin_funcs = 0
+let g:pymode_trim_whitespaces = 0
+let g:pymode_syntax_all = 1
 " force python-mode to ignore warnings:
 "  * E702 - numtilple statements in one line (BREAKPOINTs)
 let g:pymode_lint_ignore = "E702"
