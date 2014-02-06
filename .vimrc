@@ -21,8 +21,9 @@
 set nocompatible "quite obvious
 syntax on "syntax hilighting
 
-" Automatic reloading of .vimrc
-autocmd! bufwritepost .vimrc source %
+" Map vimrc edit and vimrc source to a handy shortcut
+nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
+nnoremap <Leader>vs :source $MYVIMRC<CR>
 
 set mouse=a "enable mouse
 set bs=2 "make backspace behave 'less magically' and more predictably
