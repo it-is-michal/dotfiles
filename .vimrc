@@ -305,10 +305,10 @@ nnoremap <Leader>q :q<CR>
 nnoremap <Leader>w :w<CR>
 
 " Shortcuts for RST headers
-nnoremap <leader>1 yypVr=
-nnoremap <leader>2 yypVr-
-nnoremap <leader>3 yypVr~
-nnoremap <leader>4 yypVr.
+nnoremap <leader>1 yypVr=o<esc>
+nnoremap <leader>2 yypVr-o<esc>
+nnoremap <leader>3 yypVr~o<esc>
+nnoremap <leader>4 yypVr.o<esc>
 
-" Add RST fold creating shortcut
-nnoremap <leader>cf `<O.. {{{<esc>`>o.. }}}<esc>
+" Shortcut for creating RST fold
+nnoremap <leader>cf `<O.. {{{<esc>`>o.. }}}<esc>k
