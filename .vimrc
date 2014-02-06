@@ -81,7 +81,10 @@ Bundle 'mileszs/ack.vim'
 " colorschemes
 "" Bundle 'vividchalk.vim'
 "" Bundle "altercation/vim-colors-solarized"
+Bundle 'chriskempson/base16-vim'
 
+set t_Co=256
+let base16colorspace=256  " Access colors present in 256 colorspace
 if has('gui_running')
   set guioptions-=m  " remove menu bar
   set guioptions-=T  " remove toolbar
@@ -93,18 +96,12 @@ if has('gui_running')
   " set font
   set guifont=Source\ Code\ Pro\ 11
 
+  colorscheme base16-tomorrow
   set background=light
-  colorscheme Tomorrow
 else
-  colorscheme Tomorrow-Night-Eighties
+  colorscheme slate
   set background=dark
 endif
-
-" wombat256mod - colorscheme
-" borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
-"" Bundle 'michalbachowski/vim-wombat256mod'
-set t_Co=256
-"" color wombat256mod
 
 " ctrlp
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
