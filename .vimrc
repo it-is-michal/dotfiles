@@ -21,6 +21,8 @@
 set nocompatible "quite obvious
 syntax on "syntax hilighting
 
+let mapleader = " " "rebind <Leader> key to space
+
 " Map vimrc edit and vimrc source to a handy shortcut
 nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
 nnoremap <Leader>vs :source $MYVIMRC<CR>
@@ -29,8 +31,6 @@ set mouse=a "enable mouse
 set bs=2 "make backspace behave 'less magically' and more predictably
 
 set clipboard=unnamed "easier integration with system clipboard
-
-let mapleader = " " "rebind <Leader> key to space
 
 " disable backup files
 set nobackup
