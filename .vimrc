@@ -303,3 +303,9 @@ nnoremap <Leader>= :LargerFont<CR>
 " Fast write and fast quit
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>w :w<CR>
+
+" Shortcuts for RST headers
+nnoremap <leader>1 yypVr=
+nnoremap <leader>2 yypVr-
+nnoremap <leader>3 yypVr~
+nnoremap <leader>4 yypVr.
