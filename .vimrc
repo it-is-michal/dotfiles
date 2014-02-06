@@ -309,3 +309,6 @@ nnoremap <leader>1 yypVr=
 nnoremap <leader>2 yypVr-
 nnoremap <leader>3 yypVr~
 nnoremap <leader>4 yypVr.
+
+" Add RST fold creating shortcut
+nnoremap <leader>cf `<O.. {{{<esc>`>o.. }}}<esc>
