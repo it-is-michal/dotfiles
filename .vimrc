@@ -96,7 +96,7 @@ if has('gui_running')
   " set font
   set guifont=Source\ Code\ Pro\ 11
 
-  colorscheme base16-tomorrow
+  colorscheme base16-solarized
   set background=light
 else
   colorscheme slate
