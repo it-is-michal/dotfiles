@@ -312,3 +312,6 @@ nnoremap <leader>4 yypVr.o<esc>
 
 " Shortcut for creating RST fold
 nnoremap <leader>cf `<O.. {{{<esc>`>o.. }}}<esc>k
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
