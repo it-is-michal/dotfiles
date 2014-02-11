@@ -315,3 +315,10 @@ nnoremap <leader>cf `<O.. {{{<esc>`>o.. }}}<esc>k
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
+
+"------------------------------------------------------------------------------
+" Autocommands
+"------------------------------------------------------------------------------
+augroup restructuredtext
+    autocmd FileType rst set foldmethod=marker
+augroup END
