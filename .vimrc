@@ -27,6 +27,11 @@ let mapleader = " " "rebind <Leader> key to space
 nnoremap <Leader>ve :vsplit $MYVIMRC<CR>
 nnoremap <Leader>vs :source $MYVIMRC<CR>
 
+" Map <F1> to <esc>
+nnoremap <F1> <esc>
+inoremap <F1> <esc>
+vnoremap <F1> <esc>
+
 set mouse=a "enable mouse
 set bs=2 "make backspace behave 'less magically' and more predictably
 
@@ -304,15 +309,6 @@ nnoremap <Leader>= :LargerFont<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>w :w<CR>
 
-" Shortcuts for RST headers
-nnoremap <leader>1 yypVr=o<esc>
-nnoremap <leader>2 yypVr-o<esc>
-nnoremap <leader>3 yypVr~o<esc>
-nnoremap <leader>4 yypVr.o<esc>
-
-" Shortcut for creating RST fold
-nnoremap <leader>cf `<O.. {{{<esc>`>o.. }}}<esc>k
-
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
@@ -321,4 +317,12 @@ cmap w!! w !sudo tee > /dev/null %
 "------------------------------------------------------------------------------
 augroup restructuredtext
     autocmd FileType rst set foldmethod=marker
+    " Shortcuts for RST headers
+    autocmd FileType rst nnoremap <buffer> <leader>1 yypVr=o<esc>
+    autocmd FileType rst nnoremap <buffer> <leader>2 yypVr-o<esc>
+    autocmd FileType rst nnoremap <buffer> <leader>3 yypVr~o<esc>
+    autocmd FileType rst nnoremap <buffer> <leader>4 yypVr.o<esc>
+
+    " Shortcut for creating RST fold
+    autocmd FileType rst nnoremap <buffer> <leader>cf `<O.. {{{<esc>`>o.. }}}<esc>k
 augroup END
