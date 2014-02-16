@@ -1,18 +1,7 @@
 "==============================================================================
 " My .vimrc rewritten from scratch on  2012-10-11
 "==============================================================================
-" Notes to myself
-" -----------------------------------------------------------------------------
-" checkout plugins:
-"  * MiniBufExplorer
-"  * Command-t
-"  * Syntastic
-"  * flake8
-"  * Snipmate
-"  * Fugitive
-"  * NerdCommenter
-"  * Tagbar
-"  * SimplePairs
+" TODO: Clean up .vimrc - order and group things in a sane manner; add folding
 
 
 "==============================================================================
@@ -112,10 +101,8 @@ endif
 " ctrlp
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
 Bundle 'kien/ctrlp.vim'
-map <Leader>l :CtrlPBuffer<CR>
-map <Leader>p :CtrlP<CR>
-map <Leader>n :tabnext<CR>
-map <Leader>b :tabprevious<CR>
+map <Leader>p :CtrlPBuffer<CR>
+map <Leader>pp :CtrlP<CR>
 let g:ctrlp_max_height = 30
 let g:ctrlp_open_multiple_files = 'i'
 set wildignore+=*.pyc
@@ -276,17 +263,21 @@ map <Leader>N oimport pudb; pudb.set_trace()  # BREAKPOINT<C-c>
 "" imap <left> <nop>
 "" imap <right> <nop>
 
-" Move tabs
+" Tab shortcuts
 "------------------------------------------------------------------------------
-" move left
+" move between tabs
+map <Leader>j :tabnext<CR>
+map <Leader>k :tabprevious<CR>
+
+" move tab left
 nnoremap <Leader>h :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
-" move right
-nnoremap <Leader>j :execute 'silent! tabmove ' . tabpagenr()<CR>
-" move to the beggining
+" move tab right
+nnoremap <Leader>l :execute 'silent! tabmove ' . tabpagenr()<CR>
+" move tab to the beggining
 nnoremap <Leader>H :execute 'silent! tabmove 0'<CR>
-" move to the end
-nnoremap <Leader>J :execute 'silent! tabmove'<CR>
-" new tab
+" move tab to the end
+nnoremap <Leader>L :execute 'silent! tabmove'<CR>
+" create new tab
 nnoremap <Leader>t :tabnew<CR>
 
 " Toggle line numbering
