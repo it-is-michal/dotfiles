@@ -62,6 +62,7 @@ let g:airline_theme = 'understated'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
 map <Leader>f :NERDTreeToggle<CR>
+let NERDTreeIgnore = ['\.pyc$']
 "" Bundle 'L9'
 "" Bundle 'FuzzyFinder'
 Bundle 'tpope/vim-fugitive'
