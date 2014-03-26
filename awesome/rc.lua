@@ -14,9 +14,6 @@ local vicious = require("vicious")
 
 local awmodoro = require("awmodoro")
 
--- Load Debian menu entries
-require("debian.menu")
-
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -63,6 +60,9 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
 {
+    awful.layout.suit.floating,
+    awful.layout.suit.max,
+    -- awful.layout.suit.max.fullscreen,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
@@ -71,10 +71,7 @@ local layouts =
     awful.layout.suit.fair.horizontal,
     awful.layout.suit.spiral,
     awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
-    awful.layout.suit.floating
+    awful.layout.suit.magnifier
 }
 -- }}}
 
@@ -93,10 +90,14 @@ for s = 1, screen.count() do
     -- Each screen has its own tag table.
     -- default:
     -- tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
-    -- tag_names = {'', '', '', ''}
+    -- tag_names = {'◰', '◳', '◱', '◲'}
+    tag_names = {'Α', 'Β', 'Γ', 'Δ'}
     -- tag_names = {'♠', '♥', '♦', '♣'}
-    tag_names = {'α', 'β', 'γ', 'δ'}
-    tags[s] = awful.tag(tag_names, s, {layouts[9], layouts[1], layouts[11], layouts[11]})
+    -- tag_names = {'α', 'β', 'γ', 'δ'}
+    tags[s] = awful.tag(tag_names, s, {awful.layout.suit.floating,
+        awful.layout.suit.floating,
+        awful.layout.suit.floating,
+        awful.layout.suit.floating})
 end
 -- }}}
 
@@ -109,8 +110,14 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "Debian", debian.menu.Debian_menu.Debian },
+mydisplaysmenu = {
+    {"External above internal", ".screenlayout/big_above_small.sh"},
+    {"Internal only", ".screenlayout/internal_only.sh"},
+    {"External only", ".screenlayout/external_only.sh"}
+}
+
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu },
+                                    { "displays", mydisplaysmenu },
                                     { "open terminal", terminal }
                                   }
                         })
@@ -130,15 +137,15 @@ mytextclock = awful.widget.textclock(" %a %b %d, %H:%M:%S ", 1)
 battery_widget = wibox.widget.textbox()
 battery_widget:set_align("right")
 function batteryInfo(adapter)
-    local fcur = io.open("/sys/class/power_supply/"..adapter.."/charge_now")    
-    local fcap = io.open("/sys/class/power_supply/"..adapter.."/charge_full")
+    local fcur = io.open("/sys/class/power_supply/"..adapter.."/energy_now")
+    local fcap = io.open("/sys/class/power_supply/"..adapter.."/energy_full")
     local fsta = io.open("/sys/class/power_supply/"..adapter.."/status")
     local cur = fcur:read()
     local cap = fcap:read()
     local sta = fsta:read()
     local battery = math.floor(cur * 100 / cap)
     if sta:match("Charging") then
-        power_status =  "<span color='#54a992'> "..battery.."% </span>"
+        power_status =  "<span color='#54a992'> ↑ "..battery.."% </span>"
     elseif sta:match("Discharging") then
         if tonumber(battery) < 10 then
             naughty.notify({ title      = "Battery Warning"
@@ -149,9 +156,9 @@ function batteryInfo(adapter)
                             , bg         = beautiful.bg_focus
                             })
         end
-        power_status = "<span color='#d94c3a'> "..battery.."% </span>"
+        power_status = "<span color='#d94c3a'> ↓ "..battery.."% </span>"
     else
-        power_status = "<span color='#eddbc3'> ↯"..battery.."% </span>"
+        power_status = "<span color='#eddbc3'> ↯ </span>"
     end
     battery_widget:set_markup(power_status)
     fcur:close()
@@ -159,11 +166,8 @@ function batteryInfo(adapter)
     fsta:close()
 end
 battery_timer = timer({timeout = 1})
-battery_timer:connect_signal("timeout", function() batteryInfo("BAT1") end)
+battery_timer:connect_signal("timeout", function() batteryInfo("BAT0") end)
 battery_timer:start()
-
-updates_widget = wibox.widget.textbox()
-vicious.register(updates_widget, vicious.widgets.pkg, function (widget, args) if args[1] > 0 then return "<span color='#FF0033'>Updates: "..args[1].."</span>" else return "" end end, 300, "Ubuntu")
 
 memwidget = awful.widget.graph()
 memwidget:set_background_color("#00000044")
@@ -238,7 +242,7 @@ local pomodoro = awmodoro.new({
     paused_bg_color     = '#7746D7',
     fg_color            = {type = "linear", from = {0,0}, to = {pomowibox.width, 0}, stops = {{0, "#AECF96"},{0.5, "#88A175"},{1, "#FF5656"}}},
     width               = pomowibox.width,
-    height              = pomowibox.height, 
+    height              = pomowibox.height,
 
     begin_callback = function()
         pomowibox.visible = true
@@ -280,7 +284,6 @@ for s = 1, screen.count() do
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then
         right_layout:add(mytextclock)
-        right_layout:add(updates_widget)
         right_layout:add(battery_widget)
         right_layout:add(tempwidget)
         right_layout:add(cpuwidget)
@@ -314,8 +317,11 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Up",  function () awful.util.spawn("/home/michal/.local/bin/pavol plus") end),
+    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("/home/michal/.local/bin/pavol plus") end),
     awful.key({ modkey,           }, "Down",  function () awful.util.spawn("/home/michal/.local/bin/pavol minus") end),
+    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("/home/michal/.local/bin/pavol minus") end),
     awful.key({ modkey,           }, ".",  function () awful.util.spawn("/home/michal/.local/bin/pavol mute") end),
+    awful.key({ }, "XF86AudioMute", function () awful.util.spawn("/home/michal/.local/bin/pavol mute") end),
     -- awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
     awful.key({ modkey,           }, "Escape", function()
         awful.menu.menu_keys.down = { "Down", "Alt_L" }
@@ -379,8 +385,8 @@ globalkeys = awful.util.table.join(
     -- Brightness
     awful.key({ }, "XF86MonBrightnessDown", function () awful.util.spawn("xbacklight -dec 15") end),
     awful.key({ }, "XF86MonBrightnessUp", function () awful.util.spawn("xbacklight -inc 15") end),
-    awful.key({ modkey }, "`", function () awful.util.spawn("lk") end),
-    awful.key({ modkey, "Control" }, "`", function () awful.util.spawn("slk") end)
+    awful.key({ modkey }, "`", function () awful.util.spawn("xscreensaver-command -lock") end),
+    awful.key({ modkey, "Control" }, "`", function () awful.util.spawn("sudo pm-suspend-hybrid ; xscreensaver-command -lock") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -558,17 +564,18 @@ function run_once(prg,arg_string,pname,screen)
        pname = prg
     end
 
-    if not arg_string then 
+    if not arg_string then
         awful.util.spawn_with_shell("pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. ")",screen)
     else
         awful.util.spawn_with_shell("pgrep -f -u $USER -x '" .. pname .. " ".. arg_string .."' || (" .. prg .. " " .. arg_string .. ")",screen)
     end
 end
-awful.util.spawn_with_shell(run_once("gtk-redshift", nil, "python /usr/bin/gtk-redshift"))
+awful.util.spawn_with_shell(run_once("redshift-gtk", "-l 50.061389:19.938333", "python2 /usr/bin/redshift-gtk"))
 awful.util.spawn_with_shell(run_once("nitrogen", "--restore"))
-awful.util.spawn_with_shell(run_once("setxkbmap", "pl --option caps:ctrl_modifier"))
-awful.util.spawn_with_shell(run_once("nm-applet"))
-awful.util.spawn_with_shell(run_once("gnome-sound-applet"))
-awful.util.spawn_with_shell(run_once("gnome-settings-daemon"))
-awful.util.spawn_with_shell(run_once("hamster-indicator", nil, "/usr/bin/python /usr/bin/hamster-indicator"))
+awful.util.spawn_with_shell(run_once("setxkbmap", "pl -option caps:ctrl_modifier"))
+awful.util.spawn_with_shell(run_once("wicd-gtk", nil, "/usr/bin/python2 -O /usr/share/wicd/gtk/wicd-client.py"))
+awful.util.spawn_with_shell(run_once("enable_two_fingers_scroll.sh"))
+awful.util.spawn_with_shell(run_once("xscreensaver"))
+awful.util.spawn_with_shell(run_once("pasystray"))
+awful.util.spawn_with_shell(run_once("xcompmgr", "-CcFf"))
 -- }}

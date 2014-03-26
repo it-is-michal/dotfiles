@@ -28,15 +28,15 @@ wallpaper4    = sharedthemes .. "/default/background.png"
 wpscript      = home .. "/.wallpaper"
 
 if awful.util.file_readable(wallpaper1) then
-	theme.wallpaper = wallpaper1
+        theme.wallpaper = wallpaper1
 elseif awful.util.file_readable(wallpaper2) then
-	theme.wallpaper = wallpaper2
+        theme.wallpaper = wallpaper2
 elseif awful.util.file_readable(wpscript) then
-	theme.wallpaper_cmd = { "sh " .. wpscript }
+        theme.wallpaper_cmd = { "sh " .. wpscript }
 elseif awful.util.file_readable(wallpaper3) then
-	theme.wallpaper = wallpaper3
+        theme.wallpaper = wallpaper3
 else
-	theme.wallpaper = wallpaper4
+        theme.wallpaper = wallpaper4
 end
 
 if awful.util.file_readable(config .. "/vain/init.lua") then
@@ -44,24 +44,24 @@ if awful.util.file_readable(config .. "/vain/init.lua") then
 end
 --}}}
 
-theme.font          = "Ubuntu Bold 8"
+theme.font          = "Ubuntu Light 8"
 
-theme.bg_normal     = "#00000044"
-theme.bg_focus      = "#3e3e3eaa"
+theme.bg_normal     = "#00000000"
+theme.bg_focus      = "#c23f3faa"
 theme.bg_urgent     = "#303030aa"
-theme.bg_minimize   = "#00000044"
+theme.bg_minimize   = "#00000000"
 
 theme.fg_normal     = "#eddbc3"
-theme.fg_focus      = "#54a992"
+theme.fg_focus      = "#eddbc3"
 theme.fg_unfocus    = "#606060"
-theme.fg_urgent     = "#d94c3a"
-theme.fg_highlight  = "#d94c3a"
-theme.fg_minimize   = "#d94c3a"
+theme.fg_urgent     = "#ffcc00"
+theme.fg_highlight  = "#ffcc00"
+theme.fg_minimize   = "#ffcc00"
 
 theme.border_width  = "1"
-theme.border_normal = "#000000"
-theme.border_focus  = "#54a992"
-theme.border_marked = "#91231c"
+theme.border_normal = "#30363d00"
+theme.border_focus  = "#c23f3f44"
+theme.border_marked = "#91231c44"
 
 -- widget colours
 theme.wid_rl = "#d94c3a"
@@ -83,7 +83,13 @@ theme.wid_ch = "#96cccc"
 -- [taglist|tasklist]_[bg|fg]_[focus|urgent]
 -- titlebar_[bg|fg]_[normal|focus]
 -- Example:
---theme.taglist_bg_focus = "#ff0000"
+--theme.taglist_fg_focus = "#ff0000"
+--
+theme.taglist_fg_focus = "#c23f3f"
+theme.taglist_fg_urgent = "#ccff00"
+
+theme.taglist_bg_focus = "#00000000"
+theme.taglist_bg_urgent = "#00000000"
 
 -- {{{ Widgets
 -- You can add as many variables as
@@ -92,8 +98,9 @@ theme.wid_ch = "#96cccc"
 theme.fg_widget        = "#AECF96"
 theme.fg_center_widget = "#88A175"
 theme.fg_end_widget    = "#FF5656"
-theme.bg_widget        = "#494B4F00"
-theme.border_widget    = "#3F3F3F"
+theme.bg_widget        = "#00000000"
+theme.border_widget    = "#00000000"
+theme.bg_systray        = "#6f2a4e00"
 -- }}}
 
 -- {{{ Mouse finder
@@ -107,6 +114,7 @@ theme.mouse_finder_color = "#CC9393"
 -- menu_[border_color|border_width]
 theme.menu_height = "15"
 theme.menu_width  = "100"
+theme.menu_border_width  = "0"
 -- }}}
 
 -- {{{ Icons
@@ -118,6 +126,7 @@ theme.taglist_squares_unsel = sharedthemes .. "/zenburn/taglist/squarez.png"
 
 -- {{{ Misc
 theme.awesome_icon           = sharedthemes .. "/zenburn/awesome-icon.png"
+theme.awesome_icon           = "/home/michal/.local/share/icons/start-here monochrome light.png"
 theme.menu_submenu_icon      = sharedthemes .. "/default/submenu.png"
 theme.tasklist_floating_icon = sharedthemes .. "/default/tasklist/floatingw.png"
 -- }}}
@@ -163,8 +172,6 @@ theme.titlebar_maximized_button_normal_inactive = sharedthemes .. "/zenburn/titl
 
 -- }}}
 -- }}}
-theme.awesome_icon = sharedicons .. "/awesome16.png"
-
 return theme
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
 
