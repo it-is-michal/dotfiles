@@ -102,8 +102,8 @@ endif
 " ctrlp
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
 Bundle 'kien/ctrlp.vim'
-map <Leader>p :CtrlPBuffer<CR>
-map <Leader>pp :CtrlP<CR>
+nnoremap <Leader>p :CtrlPBuffer<CR>
+nnoremap <Leader>P :CtrlP<CR>
 let g:ctrlp_max_height = 30
 let g:ctrlp_open_multiple_files = 'i'
 set wildignore+=*.pyc
