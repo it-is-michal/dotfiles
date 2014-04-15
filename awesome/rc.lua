@@ -131,7 +131,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock(" %a %b %d, %H:%M:%S ", 1)
+mytextclock = awful.widget.textclock(" %H:%M ", 15)
 
 -- Battery widget
 battery_widget = wibox.widget.textbox()
@@ -240,7 +240,7 @@ local pomodoro = awmodoro.new({
     do_notify           = true,
     active_bg_color     = '#313131',
     paused_bg_color     = '#7746D7',
-    fg_color            = {type = "linear", from = {0,0}, to = {pomowibox.width, 0}, stops = {{0, "#AECF96"},{0.5, "#88A175"},{1, "#FF5656"}}},
+    fg_color            = {type = "linear", from = {0,0}, to = {pomowibox.width, 0}, stops = {{0, "#AECF96"},{0.5, "#88A175"},{1, "#FF5656"}} },
     width               = pomowibox.width,
     height              = pomowibox.height,
 
@@ -469,12 +469,14 @@ awful.rules.rules = {
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
                      buttons = clientbuttons } },
-    { rule = { class = "MPlayer" },
-      properties = { floating = true } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
+    { rule = { class = "Wicd" },
+      properties = { floating = true } },
+    { rule = { class = "Do" },
+      properties = { border_width = 0 } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
@@ -554,7 +556,7 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
--- {{ Autostart
+-- {{{ Autostart
 function run_once(prg,arg_string,pname,screen)
     if not prg then
         do return nil end
@@ -574,8 +576,10 @@ awful.util.spawn_with_shell(run_once("redshift-gtk", "-l 50.061389:19.938333", "
 awful.util.spawn_with_shell(run_once("nitrogen", "--restore"))
 awful.util.spawn_with_shell(run_once("setxkbmap", "pl -option caps:ctrl_modifier"))
 awful.util.spawn_with_shell(run_once("wicd-gtk", nil, "/usr/bin/python2 -O /usr/share/wicd/gtk/wicd-client.py"))
-awful.util.spawn_with_shell(run_once("enable_two_fingers_scroll.sh"))
+awful.util.spawn_with_shell("/home/michal/.local/bin/enable_two_fingers_scroll.sh")
 awful.util.spawn_with_shell(run_once("xscreensaver"))
 awful.util.spawn_with_shell(run_once("pasystray"))
+awful.util.spawn_with_shell(run_once("gnome-do"))
 awful.util.spawn_with_shell(run_once("xcompmgr", "-CcFf"))
--- }}
+awful.util.spawn_with_shell(run_once("dropboxd", nil, ".dropbox-dist/dropboxd"))
+-- }}}
