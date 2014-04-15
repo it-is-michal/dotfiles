@@ -44,7 +44,7 @@ if awful.util.file_readable(config .. "/vain/init.lua") then
 end
 --}}}
 
-theme.font          = "Ubuntu Light 8"
+theme.font          = "Ubuntu 9"
 
 theme.bg_normal     = "#00000000"
 theme.bg_focus      = "#c23f3faa"
@@ -54,9 +54,9 @@ theme.bg_minimize   = "#00000000"
 theme.fg_normal     = "#eddbc3"
 theme.fg_focus      = "#eddbc3"
 theme.fg_unfocus    = "#606060"
-theme.fg_urgent     = "#ffcc00"
-theme.fg_highlight  = "#ffcc00"
-theme.fg_minimize   = "#ffcc00"
+theme.fg_urgent     = "#33adff"
+theme.fg_highlight  = "#33adff"
+theme.fg_minimize   = "#33adff"
 
 theme.border_width  = "1"
 theme.border_normal = "#30363d00"
@@ -86,7 +86,7 @@ theme.wid_ch = "#96cccc"
 --theme.taglist_fg_focus = "#ff0000"
 --
 theme.taglist_fg_focus = "#c23f3f"
-theme.taglist_fg_urgent = "#ccff00"
+theme.taglist_fg_urgent = "#33adff"
 
 theme.taglist_bg_focus = "#00000000"
 theme.taglist_bg_urgent = "#00000000"
@@ -112,9 +112,13 @@ theme.mouse_finder_color = "#CC9393"
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
-theme.menu_height = "15"
-theme.menu_width  = "100"
+theme.menu_height = "25"
+theme.menu_width  = "200"
 theme.menu_border_width  = "0"
+theme.menu_fg_normal = "#eddbc3"
+theme.menu_bg_normal = "#c23f3f44"
+theme.menu_fg_focus = "#c23f3f"
+theme.menu_bg_focus = "#eddbc3"
 -- }}}
 
 -- {{{ Icons
@@ -126,7 +130,7 @@ theme.taglist_squares_unsel = sharedthemes .. "/zenburn/taglist/squarez.png"
 
 -- {{{ Misc
 theme.awesome_icon           = sharedthemes .. "/zenburn/awesome-icon.png"
-theme.awesome_icon           = "/home/michal/.local/share/icons/start-here monochrome light.png"
+theme.awesome_icon           = "/home/michal/.local/share/icons/start-here monochrome light 16x16.png"
 theme.menu_submenu_icon      = sharedthemes .. "/default/submenu.png"
 theme.tasklist_floating_icon = sharedthemes .. "/default/tasklist/floatingw.png"
 -- }}}
