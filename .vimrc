@@ -19,6 +19,8 @@ nnoremap <Leader>vs :source $MYVIMRC<CR>
 " Map <F1> to <esc>
 nnoremap <F1> <esc>
 inoremap <F1> <esc>
+inoremap jk <esc>
+inoremap kj <esc>
 vnoremap <F1> <esc>
 
 set mouse=a "enable mouse
@@ -40,6 +42,9 @@ set wildmode=list:longest,full
 
 set showmatch
 
+set diffopt+=vertical
+
+set switchbuf+=usetab,newtab  " this makes quickfix open new files in new tabs
 
 "==============================================================================
 " Vundle settings
@@ -55,6 +60,8 @@ Bundle 'gmarik/vundle'
 
 " my Vundles
 "------------------------------------------------------------------------------
+Bundle 'tpope/vim-markdown'
+Bundle 'nelstrom/vim-markdown-folding'
 "" Bundle 'Lokaltog/vim-powerline'
 Bundle 'bling/vim-airline'
 let g:airline#extensions#virtualenv#enabled = 1
@@ -62,22 +69,62 @@ let g:airline_theme = 'understated'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
 map <Leader>f :NERDTreeToggle<CR>
-let NERDTreeIgnore = ['\.pyc$']
+let NERDTreeIgnore = ['\.pyc$', 'htmlcov']
 "" Bundle 'L9'
 "" Bundle 'FuzzyFinder'
 Bundle 'tpope/vim-fugitive'
 " Mercurial wrapper for Vim:
 Bundle 'ludovicchabant/vim-lawrencium'
 Bundle 'mhinz/vim-signify'
+Bundle 'terryma/vim-multiple-cursors'
 
 Bundle 'davidhalter/jedi-vim'
+let g:jedi#completions_enabled = 0
+Bundle 'SirVer/ultisnips'
+Bundle 'Valloric/YouCompleteMe'
 
-Bundle 'mileszs/ack.vim'
+function! g:UltiSnips_Complete()
+    call UltiSnips#ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips#JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsListSnippets="<c-e>"
+" this mapping Enter key to <C-y> to chose the current highlight item
+" and close the selection list, same as other IDEs.
+" CONFLICT with some plugins like tpope/Endwise
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+Bundle 'jmcantrell/vim-virtualenv'
+
+" tmux related
+Bundle 'christoomey/vim-tmux-navigator'
+Bundle 'benmills/vimux'
+nnoremap <F5> :call VimuxRunLastCommand()<CR>
+nnoremap <F6> :VimuxPromptCommand<CR>
+
 
 " colorschemes
 "" Bundle 'vividchalk.vim'
 "" Bundle "altercation/vim-colors-solarized"
 Bundle 'chriskempson/base16-vim'
+
+Bundle 'rking/ag.vim'
+nmap <silent> <RIGHT> :cnext<CR>
+nmap <silent> <LEFT> :cprev<CR>
+" bind K to grep word under cursor
+nnoremap KK :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 set t_Co=256
 let base16colorspace=256  " Access colors present in 256 colorspace
@@ -98,25 +145,52 @@ else
   colorscheme slate
   set background=dark
 endif
+hi CursorLine term=bold cterm=bold ctermbg=8
 
 " ctrlp
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
 Bundle 'kien/ctrlp.vim'
 nnoremap <Leader>p :CtrlPBuffer<CR>
-nnoremap <Leader>P :CtrlP<CR>
+nnoremap <Leader>o :CtrlP<CR>
+let g:ctrlp_working_path_mode = 0
 let g:ctrlp_max_height = 30
 let g:ctrlp_open_multiple_files = 'i'
+
+" use ag instead of vim's grep
+if executable('ag')
+    " Note we extract the column as well as the file and line number
+    set grepprg=ag\ --nogroup\ --nocolor\ --column
+    set grepformat=%f:%l:%c%m
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    let g:ctrlp_user_command = 'ag %s -l --nocolor --path-to-agignore="$(git rev-parse --show-toplevel)/.gitignore" -g ""'
+
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
+endif
+
 set wildignore+=*.pyc
 set wildignore+=*_build/*
 set wildignore+=**/coverage/*
+set wildignore+=**/htmlcov/*
+
+let g:ctrlp_buffer_func = { 'enter': 'CtrlPMappings' }
+
+function! CtrlPMappings()
+  nnoremap <buffer> <silent> <C-@> :call <sid>DeleteBuffer()<cr>
+endfunction
+
+function! s:DeleteBuffer()
+  let path = fnamemodify(getline('.')[2:], ':p')
+  let bufn = matchstr(path, '\v\d+\ze\*No Name')
+  exec "bd" bufn ==# "" ? path : bufn
+  exec "norm \<F5>"
+endfunction
 
 " python-mode
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
 Bundle 'klen/python-mode'
-map <Leader>g :call RopeGoToDefinition()<CR>
-let ropevim_enable_shortcuts = 1
-let g:pymode_rope_def_newwin = "vnew"
-let g:pymode_rope_extended_complete = 1
+let g:pymode_rope = 0
+let g:pymode_folding = 1
 let g:pymode_breakpoint = 0
 let g:pymode_syntax = 1
 let g:pymode_syntax_builtin_objs = 0
@@ -169,13 +243,16 @@ filetype plugin indent on
 " Movement, selection
 "==============================================================================
 " remap movement between windows
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-h> <c-w>h
-map <c-l> <c-w>l
+"" let g:tmux_navigator_no_mappings = 1
+""
+"" nnoremap <silent> <ctrl-h> :TmuxNavigateLeft<cr>
+"" nnoremap <silent> <ctrl-j> :TmuxNavigateDown<cr>
+"" nnoremap <silent> <ctrl-k> :TmuxNavigateUp<cr>
+"" nnoremap <silent> <ctrl-l> :TmuxNavigateRight<cr>
+"" nnoremap <silent> <ctrl-/> :TmuxNavigatePrevious<cr>
 
 " remove hilight from search with <C-n>
-noremap <C-n> :nohl<CR>
+noremap <Leader>nh :nohl<CR>
 
 " easier block indenting - does not loose selection after indenting
 vnoremap < <gv
@@ -247,6 +324,8 @@ noremap <Leader>x <esc>:set cuc!<cr>:set cul!<cr>
 noremap <Leader>ws :set list!<CR>
 nnoremap <F7> :w<CR>
 inoremap <F7> <ESC>:w<CR>i
+noremap <F8> :cclose<CR>
+inoremap <F8> :cclose<CR>
 
 " Python goodies
 "------------------------------------------------------------------------------
@@ -283,23 +362,25 @@ nnoremap <Leader>t :tabnew<CR>
 
 " Toggle line numbering
 "------------------------------------------------------------------------------
-function! g:ToggleLineNumberingMode()
-    if(&relativenumber==1)
-        set norelativenumber
-    else
-        set relativenumber
-    endif
-endfunc
-nnoremap <Leader>r :call g:ToggleLineNumberingMode()<CR>
+""function! g:ToggleLineNumberingMode()
+""    if(&relativenumber==1)
+""        set norelativenumber
+""    else
+""        set relativenumber
+""    endif
+""endfunc
+""nnoremap <Leader>r :call g:ToggleLineNumberingMode()<CR>
 
 " Adjust GUI font size
 "------------------------------------------------------------------------------
 nnoremap <Leader>- :SmallerFont<CR>
 nnoremap <Leader>= :LargerFont<CR>
 
-" Fast write and fast quit
+" Fast write, quit, and edit
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader>e :e<CR>
+nnoremap <Leader>wq :wq<CR>
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
@@ -317,4 +398,19 @@ augroup restructuredtext
 
     " Shortcut for creating RST fold
     autocmd FileType rst nnoremap <buffer> <leader>cf `<O.. {{{<esc>`>o.. }}}<esc>k
+augroup END
+
+augroup markdown
+    autocmd FileType markdown set foldmethod=expr
+    autocmd FileType markdown nnoremap <buffer> <leader>1 yypVr=o<esc>
+    autocmd FileType markdown nnoremap <buffer> <leader>2 yypVr-o<esc>
+augroup END
+
+augroup xml
+    autocmd FileType xml nnoremap <buffer> <leader>y :% !xmllint --format -<esc>
+augroup END
+
+augroup python
+    autocmd FileType python nnoremap <buffer> <leader>rt :call VimuxRunCommand("clear; py.test -s --flakes --pep8 " . @%)<CR>
+    autocmd FileType python nnoremap <buffer> <leader>rat :call VimuxRunCommand("clear; py.test -s --flakes --pep8")<CR>
 augroup END
