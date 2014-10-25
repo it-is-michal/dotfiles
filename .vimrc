@@ -1,13 +1,53 @@
+" vi: set foldmethod=marker :
 "==============================================================================
 " My .vimrc rewritten from scratch on  2012-10-11
 "==============================================================================
-" TODO: Clean up .vimrc - order and group things in a sane manner; add folding
-
-
-"==============================================================================
-" General options
-"==============================================================================
 set nocompatible "quite obvious
+
+"==============================================================================
+" Plugins managed via Vundle {{{
+"==============================================================================
+" Firstly you have to install vundle:
+"   git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+"==============================================================================
+filetype off "required by Vundle
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/vundle
+call vundle#begin()
+
+" let Vundle manage Vundle - required!
+Bundle 'gmarik/vundle'
+
+" my Vundles
+"------------------------------------------------------------------------------
+Bundle 'tpope/vim-markdown'
+Bundle 'nelstrom/vim-markdown-folding'
+Bundle 'bling/vim-airline'
+Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'tpope/vim-fugitive'
+Bundle 'ludovicchabant/vim-lawrencium'
+Bundle 'mhinz/vim-signify'
+Bundle 'terryma/vim-multiple-cursors'
+Bundle 'davidhalter/jedi-vim'
+Bundle 'SirVer/ultisnips'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'jmcantrell/vim-virtualenv'
+Bundle 'christoomey/vim-tmux-navigator'
+Bundle 'benmills/vimux'
+Bundle 'chriskempson/base16-vim'
+Bundle 'rking/ag.vim'
+Bundle 'kien/ctrlp.vim'
+Bundle 'klen/python-mode'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+" }}}
+
+"==============================================================================
+" General options {{{
+"==============================================================================
 syntax on "syntax hilighting
 
 let mapleader = " " "rebind <Leader> key to space
@@ -19,9 +59,11 @@ nnoremap <Leader>vs :source $MYVIMRC<CR>
 " Map <F1> to <esc>
 nnoremap <F1> <esc>
 inoremap <F1> <esc>
+vnoremap <F1> <esc>
+
+" Map j and k rocker <esc> shortcuts
 inoremap jk <esc>
 inoremap kj <esc>
-vnoremap <F1> <esc>
 
 set mouse=a "enable mouse
 set bs=2 "make backspace behave 'less magically' and more predictably
@@ -32,7 +74,6 @@ set clipboard=unnamed "easier integration with system clipboard
 set nobackup
 set nowritebackup
 set noswapfile
-filetype off "required by Vundle
 
 set history=700
 set undolevels=700
@@ -46,43 +87,57 @@ set diffopt+=vertical
 
 set switchbuf+=usetab,newtab  " this makes quickfix open new files in new tabs
 
-"==============================================================================
-" Vundle settings
-"==============================================================================
-" Firstly you have to install vundle:
-"   git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-"==============================================================================
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+" Better navigating through omnicomplete option list
+" borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
+" See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
+set completeopt=longest,menuone
+function! OmniPopup(action)
+   if pumvisible()
+       if a:action == 'j'
+           return "\<C-N>"
+       elseif a:action == 'k'
+           return "\<C-P>"
+       endif
+   endif
+   return a:action
+endfunction
 
-" let Vundle manage Vundle - required!
-Bundle 'gmarik/vundle'
+inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
+inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 
-" my Vundles
-"------------------------------------------------------------------------------
-Bundle 'tpope/vim-markdown'
-Bundle 'nelstrom/vim-markdown-folding'
-"" Bundle 'Lokaltog/vim-powerline'
-Bundle 'bling/vim-airline'
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=**/coverage/*
+set wildignore+=**/htmlcov/*
+
+" Python folding
+" borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
+" mkdir -p ~/.vim/ftplugin
+" wget -O ~/.vim/ftplugin/python_editing.vim http://www.vim.org/scripts/download_script.php?src_id=5492
+"" set nofoldenable
+
+" }}}
+
+
+"==============================================================================
+" Pungins options {{{
+"==============================================================================
+" bling/vim-airline -----------------------------------------------------------
 let g:airline#extensions#virtualenv#enabled = 1
-let g:airline_theme = 'understated'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/nerdcommenter'
+let g:airline_theme = 'murmur'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+
+" scrooloose/nerdtree ---------------------------------------------------------
 map <Leader>f :NERDTreeToggle<CR>
 let NERDTreeIgnore = ['\.pyc$', 'htmlcov']
-"" Bundle 'L9'
-"" Bundle 'FuzzyFinder'
-Bundle 'tpope/vim-fugitive'
-" Mercurial wrapper for Vim:
-Bundle 'ludovicchabant/vim-lawrencium'
-Bundle 'mhinz/vim-signify'
-Bundle 'terryma/vim-multiple-cursors'
 
-Bundle 'davidhalter/jedi-vim'
+" davidhalter/jedi-vim --------------------------------------------------------
 let g:jedi#completions_enabled = 0
-Bundle 'SirVer/ultisnips'
-Bundle 'Valloric/YouCompleteMe'
 
+" SirVer/ultisnips ------------------------------------------------------------
 function! g:UltiSnips_Complete()
     call UltiSnips#ExpandSnippet()
     if g:ulti_expand_res == 0
@@ -106,50 +161,17 @@ let g:UltiSnipsListSnippets="<c-e>"
 " CONFLICT with some plugins like tpope/Endwise
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-Bundle 'jmcantrell/vim-virtualenv'
-
-" tmux related
-Bundle 'christoomey/vim-tmux-navigator'
-Bundle 'benmills/vimux'
+" benmills/vimux --------------------------------------------------------------
 nnoremap <F5> :call VimuxRunLastCommand()<CR>
 nnoremap <F6> :VimuxPromptCommand<CR>
 
-
-" colorschemes
-"" Bundle 'vividchalk.vim'
-"" Bundle "altercation/vim-colors-solarized"
-Bundle 'chriskempson/base16-vim'
-
-Bundle 'rking/ag.vim'
+" rking/ag.vim ----------------------------------------------------------------
 nmap <silent> <RIGHT> :cnext<CR>
 nmap <silent> <LEFT> :cprev<CR>
 " bind K to grep word under cursor
 nnoremap KK :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
-set t_Co=256
-let base16colorspace=256  " Access colors present in 256 colorspace
-if has('gui_running')
-  set guioptions-=m  " remove menu bar
-  set guioptions-=T  " remove toolbar
-  " remove scrollbars
-  set guioptions-=r
-  set guioptions-=R
-  set guioptions-=l
-  set guioptions-=L
-  " set font
-  set guifont=Source\ Code\ Pro\ 11
-
-  colorscheme base16-solarized
-  set background=light
-else
-  colorscheme slate
-  set background=dark
-endif
-hi CursorLine term=bold cterm=bold ctermbg=8
-
-" ctrlp
-" borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
-Bundle 'kien/ctrlp.vim'
+" kien/ctrlp.vim --------------------------------------------------------------
 nnoremap <Leader>p :CtrlPBuffer<CR>
 nnoremap <Leader>o :CtrlP<CR>
 let g:ctrlp_working_path_mode = 0
@@ -168,11 +190,6 @@ if executable('ag')
     let g:ctrlp_use_caching = 0
 endif
 
-set wildignore+=*.pyc
-set wildignore+=*_build/*
-set wildignore+=**/coverage/*
-set wildignore+=**/htmlcov/*
-
 let g:ctrlp_buffer_func = { 'enter': 'CtrlPMappings' }
 
 function! CtrlPMappings()
@@ -186,9 +203,7 @@ function! s:DeleteBuffer()
   exec "norm \<F5>"
 endfunction
 
-" python-mode
-" borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
-Bundle 'klen/python-mode'
+" klen/python-mode ------------------------------------------------------------
 let g:pymode_rope = 0
 let g:pymode_folding = 1
 let g:pymode_breakpoint = 0
@@ -201,34 +216,10 @@ let g:pymode_syntax_all = 1
 "  * E702 - numtilple statements in one line (BREAKPOINTs)
 let g:pymode_lint_ignore = "E702"
 
-" Better navigating through omnicomplete option list
-" borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
-" See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
-set completeopt=longest,menuone
-function! OmniPopup(action)
-   if pumvisible()
-       if a:action == 'j'
-           return "\<C-N>"
-       elseif a:action == 'k'
-           return "\<C-P>"
-       endif
-   endif
-   return a:action
-endfunction
-
-inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
-inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
-
-
-" Python folding
-" borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
-" mkdir -p ~/.vim/ftplugin
-" wget -O ~/.vim/ftplugin/python_editing.vim http://www.vim.org/scripts/download_script.php?src_id=5492
-"" set nofoldenable
-
+" }}}
 
 "==============================================================================
-" Indentation
+" Indentation {{{
 "==============================================================================
 set tabstop=4
 set softtabstop=4
@@ -237,10 +228,10 @@ set shiftround
 set expandtab
 filetype plugin on
 filetype plugin indent on
-
+" }}}
 
 "==============================================================================
-" Movement, selection
+" Movement, selection {{{
 "==============================================================================
 " remap movement between windows
 "" let g:tmux_navigator_no_mappings = 1
@@ -257,10 +248,10 @@ noremap <Leader>nh :nohl<CR>
 " easier block indenting - does not loose selection after indenting
 vnoremap < <gv
 vnoremap > >gv
-
+" }}}
 
 "==============================================================================
-" Visiual options
+" Visiual options {{{
 "==============================================================================
 set number "show line numbers
 set relativenumber "toggle relative line numbering
@@ -279,8 +270,30 @@ set laststatus=2 "always show statusline - required for Powerline to show up
 "" endif
 set colorcolumn=80
 
+set t_Co=256
+let base16colorspace=256  " Access colors present in 256 colorspace
+if has('gui_running')
+  set guioptions-=m  " remove menu bar
+  set guioptions-=T  " remove toolbar
+  " remove scrollbars
+  set guioptions-=r
+  set guioptions-=R
+  set guioptions-=l
+  set guioptions-=L
+  " set font
+  set guifont=Source\ Code\ Pro\ 11
+
+  colorscheme base16-solarized
+  set background=light
+else
+  colorscheme slate
+  set background=light
+endif
+hi CursorLine term=bold cterm=bold ctermbg=8
+" }}}
+
 " ==============================================================================
-" Helper functions
+" Helper functions {{{
 " ==============================================================================
 " Adjust GUI font size
 let s:pattern = '^\(.* \)\([1-9][0-9]*\)$'
@@ -309,10 +322,10 @@ function! SmallerFont()
   call AdjustFontSize(-1)
 endfunction
 command! SmallerFont call SmallerFont()
-
+" }}}
 
 "==============================================================================
-" Shortcuts and mappings
+" Shortcuts and mappings {{{
 "==============================================================================
 " Toggle spellcheck
 nnoremap <Leader>s :set spell!<CR>
@@ -384,10 +397,11 @@ nnoremap <Leader>wq :wq<CR>
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
+" }}}
 
-"------------------------------------------------------------------------------
-" Autocommands
-"------------------------------------------------------------------------------
+"==============================================================================
+" Autocommands {{{
+"==============================================================================
 augroup restructuredtext
     autocmd FileType rst set foldmethod=marker
     " Shortcuts for RST headers
@@ -414,3 +428,4 @@ augroup python
     autocmd FileType python nnoremap <buffer> <leader>rt :call VimuxRunCommand("clear; py.test -s --flakes --pep8 " . @%)<CR>
     autocmd FileType python nnoremap <buffer> <leader>rat :call VimuxRunCommand("clear; py.test -s --flakes --pep8")<CR>
 augroup END
+" }}}
