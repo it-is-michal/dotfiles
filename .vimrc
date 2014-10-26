@@ -286,8 +286,6 @@ if has('gui_running')
   " set font
   set guifont=Source\ Code\ Pro\ 11
 endif
-
-hi CursorLine term=bold cterm=bold ctermbg=8
 " }}}
 
 " ==============================================================================
@@ -330,7 +328,7 @@ nnoremap <Leader>s :set spell!<CR>
 " Toggle paste mode with <F2>
 set pastetoggle=<F2>
 " toggle cursorcolumn and cursorline cross
-noremap <Leader>x <esc>:set cuc!<cr>:set cul!<cr>
+noremap <Leader>x <esc>:set cuc!<cr>
 " toggle whitespace listing
 noremap <Leader>ws :set list!<CR>
 nnoremap <F7> :w<CR>
