@@ -36,7 +36,7 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'jmcantrell/vim-virtualenv'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'benmills/vimux'
-Bundle 'chriskempson/base16-vim'
+Bundle 'sjl/badwolf'
 Bundle 'rking/ag.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'klen/python-mode'
@@ -260,6 +260,7 @@ set nowrap "don't automatically wrap on load
 set fo-=t "don't automatically wrap text when typing
 set hlsearch
 set laststatus=2 "always show statusline - required for Powerline to show up
+set cursorline
 
 " TODO check out why code below does not work as expected
 "" " highlight columns 81+
@@ -271,7 +272,9 @@ set laststatus=2 "always show statusline - required for Powerline to show up
 set colorcolumn=80
 
 set t_Co=256
-let base16colorspace=256  " Access colors present in 256 colorspace
+
+colorscheme badwolf
+
 if has('gui_running')
   set guioptions-=m  " remove menu bar
   set guioptions-=T  " remove toolbar
@@ -282,13 +285,8 @@ if has('gui_running')
   set guioptions-=L
   " set font
   set guifont=Source\ Code\ Pro\ 11
-
-  colorscheme base16-solarized
-  set background=light
-else
-  colorscheme slate
-  set background=light
 endif
+
 hi CursorLine term=bold cterm=bold ctermbg=8
 " }}}
 
