@@ -284,7 +284,7 @@ if has('gui_running')
   set guioptions-=l
   set guioptions-=L
   " set font
-  set guifont=Source\ Code\ Pro\ 11
+  set guifont=Source\ Code\ Pro\ 10
 endif
 " }}}
 
