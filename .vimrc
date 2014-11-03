@@ -40,6 +40,9 @@ Bundle 'sjl/badwolf'
 Bundle 'rking/ag.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'klen/python-mode'
+Bundle 'henrik/vim-indexed-search'
+Bundle 'junegunn/goyo.vim'
+Bundle 'junegunn/limelight.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -424,4 +427,7 @@ augroup python
     autocmd FileType python nnoremap <buffer> <leader>rt :call VimuxRunCommand("clear; py.test -s --flakes --pep8 " . @%)<CR>
     autocmd FileType python nnoremap <buffer> <leader>rat :call VimuxRunCommand("clear; py.test -s --flakes --pep8")<CR>
 augroup END
+
+autocmd User GoyoEnter Limelight
+autocmd User GoyoLeave Limelight!
 " }}}
