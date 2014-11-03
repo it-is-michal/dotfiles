@@ -121,7 +121,6 @@ set wildignore+=**/htmlcov/*
 
 " }}}
 
-
 "==============================================================================
 " Pungins options {{{
 "==============================================================================
@@ -326,6 +325,7 @@ command! SmallerFont call SmallerFont()
 "==============================================================================
 " Shortcuts and mappings {{{
 "==============================================================================
+nnoremap <Leader>g :Goyo<CR>  " enter Zen mode
 " Toggle spellcheck
 nnoremap <Leader>s :set spell!<CR>
 " Toggle paste mode with <F2>
