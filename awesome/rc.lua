@@ -323,8 +323,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, ".",  function () awful.util.spawn("/home/michal/.local/bin/pavol mute") end),
     awful.key({ }, "XF86AudioMute", function () awful.util.spawn("/home/michal/.local/bin/pavol mute") end),
     -- awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
-    awful.key({ modkey,           }, "Escape", function()
-        awful.menu.menu_keys.down = { "Down", "Alt_L" }
+    awful.key({ modkey,           }, "z", function()
+        awful.menu.menu_keys.down = { "Down", "j"}
+        awful.menu.menu_keys.up = { "Up", "k"}
+        awful.menu.menu_keys.enter = { "Enter", " "}
         local cmenu = awful.menu.clients({width=460}, { keygrabber=true })
     end),
 
@@ -341,8 +343,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
+    awful.key({ modkey, "Shift"   }, "]", function () awful.client.swap.byidx(  1)    end),
+    awful.key({ modkey, "Shift"   }, "[", function () awful.client.swap.byidx( -1)    end),
+    awful.key({ modkey, "Shift"   }, "k",   awful.tag.viewprev       ),
+    awful.key({ modkey, "Shift"   }, "j",  awful.tag.viewnext       ),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
@@ -397,6 +401,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey, }, "F4", function (c) c:kill()                         end),
+    awful.key({ modkey, }, "<", function (c) c:kill()                         end),
     awful.key({ modkey,           }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
@@ -583,3 +588,4 @@ awful.util.spawn_with_shell(run_once("gnome-do"))
 awful.util.spawn_with_shell(run_once("xcompmgr", "-CcFf"))
 awful.util.spawn_with_shell(run_once("dropboxd", nil, ".dropbox-dist/dropboxd"))
 -- }}}
+-- vim: set foldmethod=marker :
