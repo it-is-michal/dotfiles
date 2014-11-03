@@ -393,6 +393,7 @@ nnoremap <Leader>q :q<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>e :e<CR>
 nnoremap <Leader>wq :wq<CR>
+nnoremap <Leader>bd :bd<CR>
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
