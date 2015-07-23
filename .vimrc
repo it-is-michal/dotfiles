@@ -4,6 +4,8 @@
 "==============================================================================
 set nocompatible "quite obvious
 
+set shell=/bin/bash
+
 "==============================================================================
 " Plugins managed via Vundle {{{
 "==============================================================================
@@ -21,6 +23,8 @@ Bundle 'gmarik/vundle'
 
 " my Vundles
 "------------------------------------------------------------------------------
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-markdown'
 Bundle 'nelstrom/vim-markdown-folding'
 Bundle 'bling/vim-airline'
@@ -31,6 +35,7 @@ Bundle 'ludovicchabant/vim-lawrencium'
 Bundle 'mhinz/vim-signify'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'davidhalter/jedi-vim'
+Bundle 'ervandew/supertab'
 Bundle 'SirVer/ultisnips'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'jmcantrell/vim-virtualenv'
@@ -43,6 +48,11 @@ Bundle 'klen/python-mode'
 Bundle 'henrik/vim-indexed-search'
 Bundle 'junegunn/goyo.vim'
 Bundle 'junegunn/limelight.vim'
+Bundle 'xolox/vim-misc'
+Bundle 'xolox/vim-session'
+Bundle 'fatih/vim-go'
+Bundle 'elzr/vim-json'
+Bundle 'fholgado/minibufexpl.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -69,6 +79,10 @@ inoremap jk <esc>
 inoremap kj <esc>
 
 set mouse=a "enable mouse
+if &term =~ '^screen'
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+endif
 set bs=2 "make backspace behave 'less magically' and more predictably
 
 set clipboard=unnamed "easier integration with system clipboard
@@ -79,16 +93,19 @@ set nowritebackup
 set noswapfile
 
 set history=700
-set undolevels=700
+set hidden
+set undofile
+set undodir=$HOME/.vim/undo
+set undolevels=1000
+set undoreload=10000
 
 set wildmenu " enable commands completition menu
 set wildmode=list:longest,full
 
 set showmatch
+set incsearch
 
 set diffopt+=vertical
-
-set switchbuf+=usetab,newtab  " this makes quickfix open new files in new tabs
 
 " Better navigating through omnicomplete option list
 " borrowed from https://hithub.com/mbrochh/vim-as-a-python-ide
@@ -124,6 +141,9 @@ set wildignore+=**/htmlcov/*
 "==============================================================================
 " Pungins options {{{
 "==============================================================================
+" fugitive
+nnoremap <leader>b :Gblame<CR>
+
 " bling/vim-airline -----------------------------------------------------------
 let g:airline#extensions#virtualenv#enabled = 1
 let g:airline_theme = 'murmur'
@@ -138,30 +158,41 @@ let NERDTreeIgnore = ['\.pyc$', 'htmlcov']
 
 " davidhalter/jedi-vim --------------------------------------------------------
 let g:jedi#completions_enabled = 0
+let g:jedi#use_tabs_not_buffers = 0
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " SirVer/ultisnips ------------------------------------------------------------
-function! g:UltiSnips_Complete()
-    call UltiSnips#ExpandSnippet()
-    if g:ulti_expand_res == 0
-        if pumvisible()
-            return "\<C-n>"
-        else
-            call UltiSnips#JumpForwards()
-            if g:ulti_jump_forwards_res == 0
-               return "\<TAB>"
-            endif
-        endif
-    endif
-    return ""
-endfunction
+"function! g:UltiSnips_Complete()
+    "call UltiSnips#ExpandSnippet()
+    "if g:ulti_expand_res == 0
+        "if pumvisible()
+            "return "\<C-n>"
+        "else
+            "call UltiSnips#JumpForwards()
+            "if g:ulti_jump_forwards_res == 0
+               "return "\<TAB>"
+            "endif
+        "endif
+    "endif
+    "return ""
+"endfunction
 
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsListSnippets="<c-e>"
-" this mapping Enter key to <C-y> to chose the current highlight item
-" and close the selection list, same as other IDEs.
-" CONFLICT with some plugins like tpope/Endwise
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+"let g:UltiSnipsJumpForwardTrigger="<tab>"
+"let g:UltiSnipsListSnippets="<c-e>"
+"" this mapping Enter key to <C-y> to chose the current highlight item
+"" and close the selection list, same as other IDEs.
+"" CONFLICT with some plugins like tpope/Endwise
+"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " benmills/vimux --------------------------------------------------------------
 nnoremap <F5> :call VimuxRunLastCommand()<CR>
@@ -246,6 +277,7 @@ filetype plugin indent on
 
 " remove hilight from search with <C-n>
 noremap <Leader>nh :nohl<CR>
+noremap <Leader><space> :nohl<CR>
 
 " easier block indenting - does not loose selection after indenting
 vnoremap < <gv
@@ -325,6 +357,10 @@ command! SmallerFont call SmallerFont()
 "==============================================================================
 " Shortcuts and mappings {{{
 "==============================================================================
+nnoremap <Leader>gg :Ag! -i
+nnoremap <Leader>hh :Ag! -w
+nnoremap <leader>N yiw:Ag! -w <c-r>"<CR>
+nnoremap <Leader>ll :Limelight
 nnoremap <Leader>g :Goyo<CR>  " enter Zen mode
 " Toggle spellcheck
 nnoremap <Leader>s :set spell!<CR>
@@ -338,11 +374,13 @@ nnoremap <F7> :w<CR>
 inoremap <F7> <ESC>:w<CR>i
 noremap <F8> :cclose<CR>
 inoremap <F8> :cclose<CR>
+noremap <F9> :copen<CR>
+inoremap <F9> :copen<CR>
 
 " Python goodies
 "------------------------------------------------------------------------------
-map <Leader>B oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>
-map <Leader>N oimport pudb; pudb.set_trace()  # BREAKPOINT<C-c>
+map <Leader>BI oimport ipdb; ipdb.set_trace()  # BREAKPOINT<C-c>
+map <Leader>BP oimport pudb; pudb.set_trace()  # BREAKPOINT<C-c>
 
 " Remap arrows to <nop>
 "------------------------------------------------------------------------------
@@ -355,11 +393,14 @@ map <Leader>N oimport pudb; pudb.set_trace()  # BREAKPOINT<C-c>
 "" imap <left> <nop>
 "" imap <right> <nop>
 
-" Tab shortcuts
+" Tab and Buffers shortcuts
 "------------------------------------------------------------------------------
 " move between tabs
-map <Leader>j :tabnext<CR>
-map <Leader>k :tabprevious<CR>
+map <Leader>J :tabnext<CR>
+map <Leader>K :tabprevious<CR>
+
+map <Leader>j :bnext<CR>
+map <Leader>k :bprevious<CR>
 
 " move tab left
 nnoremap <Leader>h :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
@@ -395,6 +436,9 @@ nnoremap <Leader>e :e<CR>
 nnoremap <Leader>wq :wq<CR>
 nnoremap <Leader>bd :bd<CR>
 
+nnoremap <Leader>sv :vsplit<CR>
+nnoremap <Leader>sh :split<CR>
+
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 " }}}
@@ -429,6 +473,7 @@ augroup python
     autocmd FileType python nnoremap <buffer> <leader>rat :call VimuxRunCommand("clear; py.test -s --flakes --pep8")<CR>
 augroup END
 
+autocmd BufWinEnter * silent! :%foldopen!
 autocmd User GoyoEnter Limelight
 autocmd User GoyoLeave Limelight!
 " }}}
