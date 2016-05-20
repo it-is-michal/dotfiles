@@ -52,7 +52,6 @@ Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-session'
 Bundle 'fatih/vim-go'
 Bundle 'elzr/vim-json'
-Bundle 'fholgado/minibufexpl.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -361,6 +360,7 @@ nnoremap <Leader>gg :Ag! -i
 nnoremap <Leader>hh :Ag! -w
 nnoremap <leader>N yiw:Ag! -w <c-r>"<CR>
 nnoremap <Leader>ll :Limelight
+nnoremap <Leader>lo :Limelight!<CR>
 nnoremap <Leader>g :Goyo<CR>  " enter Zen mode
 " Toggle spellcheck
 nnoremap <Leader>s :set spell!<CR>
