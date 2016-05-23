@@ -32,7 +32,8 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'tpope/vim-fugitive'
 Bundle 'ludovicchabant/vim-lawrencium'
-Bundle 'mhinz/vim-signify'
+"Bundle 'mhinz/vim-signify'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'davidhalter/jedi-vim'
 Bundle 'ervandew/supertab'
@@ -52,6 +53,12 @@ Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-session'
 Bundle 'fatih/vim-go'
 Bundle 'elzr/vim-json'
+Bundle 'pangloss/vim-javascript'
+Bundle 'jelera/vim-javascript-syntax'
+Bundle 'mxw/vim-jsx'
+Bundle 'cakebaker/scss-syntax.vim'
+Bundle 'alvan/vim-closetag'
+Bundle 'Townk/vim-autoclose'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -142,6 +149,9 @@ set wildignore+=**/htmlcov/*
 "==============================================================================
 " fugitive
 nnoremap <leader>b :Gblame<CR>
+
+" closetag
+let g:closetag_filenames = "*.html,*.xhtml,*.html, *.js, *.jsx"
 
 " bling/vim-airline -----------------------------------------------------------
 let g:airline#extensions#virtualenv#enabled = 1
@@ -471,6 +481,30 @@ augroup END
 augroup python
     autocmd FileType python nnoremap <buffer> <leader>rt :call VimuxRunCommand("clear; py.test -s --flakes --pep8 " . @%)<CR>
     autocmd FileType python nnoremap <buffer> <leader>rat :call VimuxRunCommand("clear; py.test -s --flakes --pep8")<CR>
+augroup END
+
+augroup javascript
+    autocmd FileType javascript set tabstop=2
+    autocmd FileType javascript set softtabstop=2
+    autocmd FileType javascript set shiftwidth=2
+    autocmd FileType javascript set shiftround
+    autocmd FileType javascript set expandtab
+    autocmd FileType javascript set foldmethod=indent
+    autocmd FileType javascript set foldnestmax=2
+augroup END
+
+augroup css
+    autocmd FileType css set tabstop=2
+    autocmd FileType css set softtabstop=2
+    autocmd FileType css set shiftwidth=2
+    autocmd FileType css set shiftround
+    autocmd FileType css set expandtab
+
+    autocmd FileType scss set tabstop=2
+    autocmd FileType scss set softtabstop=2
+    autocmd FileType scss set shiftwidth=2
+    autocmd FileType scss set shiftround
+    autocmd FileType scss set expandtab
 augroup END
 
 autocmd BufWinEnter * silent! :%foldopen!
