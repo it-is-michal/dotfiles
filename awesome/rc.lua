@@ -1,3 +1,5 @@
+-- Standard lua library
+local table = require("table")
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -46,7 +48,7 @@ beautiful.init("/home/michal/.config/awesome/themes/vintage/theme.lua")
 beautiful.useless_gap_width = 5
 
 -- This is used later as the default terminal and editor to run.
-terminal = "konsole"
+terminal = "gnome-terminal"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -86,18 +88,21 @@ local layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {}
+tag_names = {'Α', 'Β', 'Γ', 'Δ'}
+tag_layouts = {
+    awful.layout.suit.floating,
+    awful.layout.suit.floating,
+    awful.layout.suit.floating,
+    awful.layout.suit.floating}
+tags_count = 4
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
     -- default:
     -- tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
     -- tag_names = {'◰', '◳', '◱', '◲'}
-    tag_names = {'Α', 'Β', 'Γ', 'Δ'}
     -- tag_names = {'♠', '♥', '♦', '♣'}
     -- tag_names = {'α', 'β', 'γ', 'δ'}
-    tags[s] = awful.tag(tag_names, s, {awful.layout.suit.floating,
-        awful.layout.suit.floating,
-        awful.layout.suit.floating,
-        awful.layout.suit.floating})
+    tags[s] = awful.tag(tag_names, s, tag_layouts)
 end
 -- }}}
 
@@ -113,7 +118,8 @@ myawesomemenu = {
 mydisplaysmenu = {
     {"External above internal", ".screenlayout/big_above_small.sh"},
     {"Internal only", ".screenlayout/internal_only.sh"},
-    {"External only", ".screenlayout/external_only.sh"}
+    {"External only", ".screenlayout/external_only.sh"},
+    {"Presentation mode", ".screenlayout/presentation_mode.sh"}
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu },
@@ -158,7 +164,7 @@ function batteryInfo(adapter)
         end
         power_status = "<span color='#d94c3a'> ↓ "..battery.."% </span>"
     else
-        power_status = "<span color='#eddbc3'> ↯ </span>"
+        power_status = "<span color='#5b6a6f'> ↯ </span>"
     end
     battery_widget:set_markup(power_status)
     fcur:close()
@@ -170,20 +176,22 @@ battery_timer:connect_signal("timeout", function() batteryInfo("BAT0") end)
 battery_timer:start()
 
 memwidget = awful.widget.graph()
-memwidget:set_background_color("#00000044")
+memwidget:set_background_color("#00000000")
 memwidget:set_width(25)
 memwidget:set_color("#FFFF00")
 vicious.register(memwidget, vicious.widgets.mem, "$1")
 
 cpuwidget = awful.widget.graph()
 cpuwidget:set_width(25)
-cpuwidget:set_background_color("#00000044")
+cpuwidget:set_background_color("#00000000")
 cpuwidget:set_color("#00FF00")
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
 
 
-tempwidget = wibox.widget.textbox()
-vicious.register(tempwidget, vicious.widgets.thermal, " $1°C", 2, { "coretemp.0", "core"} )
+tempwidget0 = wibox.widget.textbox()
+vicious.register(tempwidget0, vicious.widgets.thermal, " $1°C", 2, { "thermal_zone0", "sys"} )
+tempwidget1 = wibox.widget.textbox()
+vicious.register(tempwidget1, vicious.widgets.thermal, " $1°C", 2, { "thermal_zone1", "sys"} )
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -285,7 +293,8 @@ for s = 1, screen.count() do
     if s == 1 then
         right_layout:add(mytextclock)
         right_layout:add(battery_widget)
-        right_layout:add(tempwidget)
+        right_layout:add(tempwidget0)
+        right_layout:add(tempwidget1)
         right_layout:add(cpuwidget)
         right_layout:add(memwidget)
         right_layout:add(wibox.widget.systray())
@@ -323,7 +332,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, ".",  function () awful.util.spawn("/home/michal/.local/bin/pavol mute") end),
     awful.key({ }, "XF86AudioMute", function () awful.util.spawn("/home/michal/.local/bin/pavol mute") end),
     -- awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
-    awful.key({ modkey,           }, "z", function()
+    awful.key({ modkey,           }, "c", function()
         awful.menu.menu_keys.down = { "Down", "j"}
         awful.menu.menu_keys.up = { "Up", "k"}
         awful.menu.menu_keys.enter = { "Enter", " "}
@@ -340,13 +349,14 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
+    awful.key({ modkey,           }, "q", function () mymainmenu:show() end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "]", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "[", function () awful.client.swap.byidx( -1)    end),
     awful.key({ modkey, "Shift"   }, "k",   awful.tag.viewprev       ),
     awful.key({ modkey, "Shift"   }, "j",  awful.tag.viewnext       ),
+    awful.key({ modkey,           }, "`", function () awful.screen.focus_relative( 1) end),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
@@ -360,8 +370,8 @@ globalkeys = awful.util.table.join(
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    --awful.key({ modkey, "Control" }, "r", awesome.restart),
+    --awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
@@ -369,8 +379,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
     awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
+    awful.key({ modkey,           }, "w", function () awful.layout.inc(layouts,  1) end),
+    awful.key({ modkey, "Shift"   }, "w", function () awful.layout.inc(layouts, -1) end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
@@ -389,8 +399,8 @@ globalkeys = awful.util.table.join(
     -- Brightness
     awful.key({ }, "XF86MonBrightnessDown", function () awful.util.spawn("xbacklight -dec 15") end),
     awful.key({ }, "XF86MonBrightnessUp", function () awful.util.spawn("xbacklight -inc 15") end),
-    awful.key({ modkey }, "`", function () awful.util.spawn("xscreensaver-command -lock") end),
-    awful.key({ modkey, "Control" }, "`", function () awful.util.spawn("sudo pm-suspend-hybrid ; xscreensaver-command -lock") end)
+    awful.key({ modkey }, "F9", function () awful.util.spawn("xscreensaver-command -lock") end),
+    awful.key({ modkey, "Control" }, "F9", function () awful.util.spawn("sudo pm-suspend-hybrid ; xscreensaver-command -lock") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -418,7 +428,7 @@ clientkeys = awful.util.table.join(
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 9 do
+for i = 1, tags_count do
     globalkeys = awful.util.table.join(globalkeys,
         awful.key({ modkey }, "#" .. i + 9,
                   function ()
@@ -579,12 +589,13 @@ function run_once(prg,arg_string,pname,screen)
         awful.util.spawn_with_shell("pgrep -f -u $USER -x '" .. pname .. " ".. arg_string .."' || (" .. prg .. " " .. arg_string .. ")",screen)
     end
 end
-awful.util.spawn_with_shell(run_once("redshift-gtk", "-l 50.061389:19.938333", "python2 /usr/bin/redshift-gtk"))
+awful.util.spawn_with_shell(run_once("redshift-gtk", "-l 50.061389:19.938333", "python3 /usr/bin/redshift-gtk"))
 awful.util.spawn_with_shell(run_once("nitrogen", "--restore"))
 awful.util.spawn_with_shell(run_once("setxkbmap", "pl -option caps:ctrl_modifier"))
 awful.util.spawn_with_shell(run_once("wicd-gtk", nil, "/usr/bin/python2 -O /usr/share/wicd/gtk/wicd-client.py"))
-awful.util.spawn_with_shell("/home/michal/.local/bin/enable_two_fingers_scroll.sh")
+awful.util.spawn_with_shell("/home/michal/.local/bin/enable_trackpoint_scroll.sh")
 awful.util.spawn_with_shell(run_once("xscreensaver"))
+awful.util.spawn_with_shell(run_once("unclutter"))
 awful.util.spawn_with_shell(run_once("pasystray"))
 awful.util.spawn_with_shell(run_once("gnome-do"))
 awful.util.spawn_with_shell(run_once("xcompmgr", "-CcFf"))

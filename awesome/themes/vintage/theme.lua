@@ -47,12 +47,12 @@ end
 theme.font          = "Ubuntu 9"
 
 theme.bg_normal     = "#00000000"
-theme.bg_focus      = "#c23f3faa"
+theme.bg_focus      = "#c23f3f22"
 theme.bg_urgent     = "#303030aa"
 theme.bg_minimize   = "#00000000"
 
-theme.fg_normal     = "#eddbc3"
-theme.fg_focus      = "#eddbc3"
+theme.fg_normal     = "#7b8a8f"
+theme.fg_focus      = "#393c41"
 theme.fg_unfocus    = "#606060"
 theme.fg_urgent     = "#33adff"
 theme.fg_highlight  = "#33adff"
@@ -100,7 +100,7 @@ theme.fg_center_widget = "#88A175"
 theme.fg_end_widget    = "#FF5656"
 theme.bg_widget        = "#00000000"
 theme.border_widget    = "#00000000"
-theme.bg_systray        = "#6f2a4e00"
+theme.bg_systray        = "#dff0e0"
 -- }}}
 
 -- {{{ Mouse finder
@@ -123,14 +123,14 @@ theme.menu_bg_focus = "#eddbc3"
 
 -- {{{ Icons
 -- {{{ Taglist
-theme.taglist_squares_sel   = sharedthemes .. "/zenburn/taglist/squarefz.png"
-theme.taglist_squares_unsel = sharedthemes .. "/zenburn/taglist/squarez.png"
+theme.taglist_squares_sel   = themes .. themename .. "/taglist/squarefz.png"
+theme.taglist_squares_unsel = themes .. themename .. "/taglist/squarez.png"
 --theme.taglist_squares_resize = "false"
 -- }}}
 
 -- {{{ Misc
 theme.awesome_icon           = sharedthemes .. "/zenburn/awesome-icon.png"
-theme.awesome_icon           = "/home/michal/.local/share/icons/start-here monochrome light 16x16.png"
+theme.awesome_icon           = "/home/michal/.local/share/icons/crop_menu_icon.png"
 theme.menu_submenu_icon      = sharedthemes .. "/default/submenu.png"
 theme.tasklist_floating_icon = sharedthemes .. "/default/tasklist/floatingw.png"
 -- }}}
@@ -177,5 +177,5 @@ theme.titlebar_maximized_button_normal_inactive = sharedthemes .. "/zenburn/titl
 -- }}}
 -- }}}
 return theme
--- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
+-- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80:foldmethod=marker
 

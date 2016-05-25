@@ -35,7 +35,7 @@ function awmodoro.fit(_awmodoro, width, height)
 end
 
 function awmodoro:begin()
-	if not data[self].timer.started then 
+	if not data[self].timer.started then
 		if data[self].begin_callback then data[self].begin_callback() end
 		data[self].elapsed = 0
 		data[self].bar:set_background_color(data[self].active_bg_color)

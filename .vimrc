@@ -59,6 +59,8 @@ Bundle 'mxw/vim-jsx'
 Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'alvan/vim-closetag'
 Bundle 'Townk/vim-autoclose'
+Bundle 'honza/vim-snippets'
+Bundle 'ervandew/supertab'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
