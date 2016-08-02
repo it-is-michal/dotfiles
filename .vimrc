@@ -23,6 +23,7 @@ Bundle 'gmarik/vundle'
 
 " my Vundles
 "------------------------------------------------------------------------------
+Bundle 'tpope/vim-abolish'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-markdown'
@@ -39,7 +40,8 @@ Bundle 'davidhalter/jedi-vim'
 Bundle 'ervandew/supertab'
 Bundle 'SirVer/ultisnips'
 Bundle 'Valloric/YouCompleteMe'
-Bundle 'jmcantrell/vim-virtualenv'
+"Bundle 'jmcantrell/vim-virtualenv'
+Bundle 'lambdalisue/vim-pyenv'
 Bundle 'christoomey/vim-tmux-navigator'
 Bundle 'benmills/vimux'
 Bundle 'sjl/badwolf'
@@ -59,6 +61,7 @@ Bundle 'mxw/vim-jsx'
 Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'alvan/vim-closetag'
 Bundle 'Townk/vim-autoclose'
+Bundle 'bronson/vim-trailing-whitespace'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -154,7 +157,7 @@ nnoremap <leader>b :Gblame<CR>
 let g:closetag_filenames = "*.html,*.xhtml,*.html, *.js, *.jsx"
 
 " bling/vim-airline -----------------------------------------------------------
-let g:airline#extensions#virtualenv#enabled = 1
+"let g:airline#extensions#virtualenv#enabled = 1
 let g:airline_theme = 'murmur'
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
