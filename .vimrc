@@ -64,7 +64,6 @@ Bundle 'alvan/vim-closetag'
 Bundle 'Townk/vim-autoclose'
 Bundle 'bronson/vim-trailing-whitespace'
 Bundle 'honza/vim-snippets'
-Bundle 'ervandew/supertab'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
